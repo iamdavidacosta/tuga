@@ -1,4 +1,4 @@
-﻿import { type FormEvent, useRef, useState } from 'react'
+import { type FormEvent, useRef, useState } from 'react'
 
 import type { ReactNode } from 'react'
 
@@ -16,15 +16,15 @@ import type {
   MedicationDraft,
 } from './types'
 
-const stepNames = ['Nombre', 'Dosis', 'Frecuencia', 'Horarios', 'Inicio', 'DuraciÃ³n'] as const
+const stepNames = ['Nombre', 'Dosis', 'Frecuencia', 'Horarios', 'Inicio', 'Duración'] as const
 const standardUnits = [
   'tableta',
-  'cÃ¡psula',
+  'cápsula',
   'mililitro',
   'gota',
   'sobre',
-  'aplicaciÃ³n',
-  'inhalaciÃ³n',
+  'aplicación',
+  'inhalación',
 ] as const
 
 type WizardStep = 0 | 1 | 2 | 3 | 4 | 5
@@ -50,29 +50,29 @@ function cloneDraft(draft: MedicationDraft): MedicationDraft {
 }
 
 function formatFrequency(draft: MedicationDraft): string {
-  if (draft.frequency.kind === 'daily') return 'Todos los dÃ­as'
-  if (draft.frequency.kind === 'every_two_days') return 'Cada 2 dÃ­as'
+  if (draft.frequency.kind === 'daily') return 'Todos los días'
+  if (draft.frequency.kind === 'every_two_days') return 'Cada 2 días'
   if (draft.frequency.kind === 'weekly') return 'Cada semana'
-  return `Cada ${draft.frequency.intervalDays || 'â€”'} dÃ­as`
+  return `Cada ${draft.frequency.intervalDays || '—'} días`
 }
 
 function formatSchedule(draft: MedicationDraft): string {
   if (draft.schedule.kind === 'fixed') {
     return draft.schedule.times.filter(Boolean).slice().sort().join(', ') || 'Sin horarios'
   }
-  return `Cada ${draft.schedule.intervalHours || 'â€”'} horas desde las ${draft.schedule.firstTime || 'â€”'}`
+  return `Cada ${draft.schedule.intervalHours || '—'} horas desde las ${draft.schedule.firstTime || '—'}`
 }
 
 function formatDuration(draft: MedicationDraft): string {
   if (draft.duration.kind === 'indefinite') return 'De forma continua'
-  if (draft.duration.kind === 'end_date') return `Hasta ${draft.duration.endDate || 'â€”'}`
+  if (draft.duration.kind === 'end_date') return `Hasta ${draft.duration.endDate || '—'}`
 
   const labels = {
-    days: 'dÃ­as',
+    days: 'días',
     weeks: 'semanas',
     months: 'meses calendario',
   } as const
-  return `${draft.duration.amount || 'â€”'} ${labels[draft.duration.kind]}`
+  return `${draft.duration.amount || '—'} ${labels[draft.duration.kind]}`
 }
 
 interface WizardHeaderProps {
@@ -89,7 +89,7 @@ function WizardHeader({ onBack, onClose }: WizardHeaderProps) {
         onClick={onBack}
         type="button"
       >
-        <span aria-hidden="true">â†</span>
+        <span aria-hidden="true">←</span>
       </button>
       <img alt="TUGA" className="medication-wizard-logo" src={tugaAssets.logos.text} />
       <button
@@ -98,7 +98,7 @@ function WizardHeader({ onBack, onClose }: WizardHeaderProps) {
         onClick={onClose}
         type="button"
       >
-        <span aria-hidden="true">Ã—</span>
+        <span aria-hidden="true">×</span>
       </button>
     </header>
   )
@@ -143,7 +143,12 @@ export function MedicationWizard({
   function moveToStep(nextStep: WizardStep) {
     setErrorMessage(null)
     setStep(nextStep)
-    requestAnimationFrame(() => scrollAreaRef.current?.scrollTo({ top: 0 }))
+    requestAnimationFrame(() => {
+      const scrollArea = scrollAreaRef.current
+      if (!scrollArea) return
+      if (typeof scrollArea.scrollTo === 'function') scrollArea.scrollTo({ top: 0 })
+      else scrollArea.scrollTop = 0
+    })
   }
 
   function handleBack() {
@@ -185,7 +190,7 @@ export function MedicationWizard({
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : 'No pudimos guardar el medicamento. IntÃ©ntalo nuevamente.',
+          : 'No pudimos guardar el medicamento. Inténtalo nuevamente.',
       )
       submissionLocked.current = false
       setIsSaving(false)
@@ -273,11 +278,11 @@ export function MedicationWizard({
         <div className="medication-wizard-intro">
           <div className="medication-wizard-intro__content">
             <img
-              alt="Tuga sostiene una cÃ¡psula"
+              alt="Tuga sostiene una cápsula"
               className="medication-wizard-intro__mascot"
               src={tugaAssets.mascots.capsule}
             />
-            <h1>AÃ±adir<br />un medicamento</h1>
+            <h1>Añadir <br />un medicamento</h1>
             <p>Te guiaremos paso a paso<br />para registrarlo en TUGA.</p>
           </div>
           <div className="medication-wizard-footer">
@@ -286,7 +291,7 @@ export function MedicationWizard({
               onClick={() => setShowsIntro(false)}
               type="button"
             >
-              Comenzar <span aria-hidden="true">â†’</span>
+              Comenzar <span aria-hidden="true">→</span>
             </button>
           </div>
         </div>
@@ -300,7 +305,7 @@ export function MedicationWizard({
                 className={index < step ? 'is-complete' : index === step ? 'is-current' : ''}
                 key={stepName}
               >
-                <span aria-hidden="true">{index < step ? 'âœ“' : index + 1}</span>
+                <span aria-hidden="true">{index < step ? '✓' : index + 1}</span>
               </li>
             ))}
           </ol>
@@ -310,18 +315,17 @@ export function MedicationWizard({
               {step === 0 ? (
                 <fieldset className="wizard-step-panel">
                   <legend className="visually-hidden">Nombre del medicamento</legend>
-                  <StepTitle icon="medication" step={step}>Â¿CÃ³mo se llama<br />el medicamento?</StepTitle>
+                  <StepTitle icon="medication" step={step}>¿Cómo se llama <br />el medicamento?</StepTitle>
                   <label className="wizard-field" htmlFor="medication-name">
                     <span className="visually-hidden">Nombre del medicamento</span>
                     <input
                       aria-describedby="medication-name-help"
                       aria-invalid={Boolean(errorMessage)}
                       autoComplete="off"
-                      autoFocus
                       id="medication-name"
                       maxLength={160}
                       onChange={(event) => setDraft({ ...draft, name: event.target.value })}
-                      placeholder="Ejemplo: LosartÃ¡n"
+                      placeholder="Ejemplo: Losartán"
                       type="text"
                       value={draft.name}
                     />
@@ -336,9 +340,9 @@ export function MedicationWizard({
               {step === 1 ? (
                 <fieldset className="wizard-step-panel">
                   <legend className="visually-hidden">Dosis</legend>
-                  <StepTitle icon="medication" step={step}>Â¿CuÃ¡l es la dosis?</StepTitle>
+                  <StepTitle icon="medication" step={step}>¿Cuál es la dosis?</StepTitle>
                   <div className="dose-selector">
-                    <button aria-label="Disminuir dosis" onClick={() => adjustDose(-1)} type="button">âˆ’</button>
+                    <button aria-label="Disminuir dosis" onClick={() => adjustDose(-1)} type="button">−</button>
                     <label htmlFor="medication-amount">
                       <span className="visually-hidden">Cantidad indicada</span>
                       <input
@@ -354,7 +358,7 @@ export function MedicationWizard({
                     <button aria-label="Aumentar dosis" onClick={() => adjustDose(1)} type="button">+</button>
                   </div>
                   <label className="wizard-field" htmlFor="medication-unit">
-                    <span className="visually-hidden">PresentaciÃ³n indicada</span>
+                    <span className="visually-hidden">Presentación indicada</span>
                     <select
                       id="medication-unit"
                       onChange={(event) => {
@@ -364,14 +368,14 @@ export function MedicationWizard({
                       }}
                       value={usesCustomUnit ? '__other' : draft.dosageUnit}
                     >
-                      <option value="">Selecciona la presentaciÃ³n</option>
+                      <option value="">Selecciona la presentación</option>
                       {standardUnits.map((unit) => <option key={unit} value={unit}>{unit}</option>)}
-                      <option value="__other">Otra presentaciÃ³n</option>
+                      <option value="__other">Otra presentación</option>
                     </select>
                   </label>
                   {usesCustomUnit ? (
                     <label className="wizard-field" htmlFor="medication-custom-unit">
-                      <span>Escribe la presentaciÃ³n</span>
+                      <span>Escribe la presentación</span>
                       <input
                         autoComplete="off"
                         id="medication-custom-unit"
@@ -390,11 +394,11 @@ export function MedicationWizard({
               {step === 2 ? (
                 <fieldset className="wizard-step-panel">
                   <legend className="visually-hidden">Frecuencia</legend>
-                  <StepTitle icon="calendar" step={step}>Â¿Con quÃ© frecuencia<br />lo tomas?</StepTitle>
+                  <StepTitle icon="calendar" step={step}>¿Con qué frecuencia <br />lo tomas?</StepTitle>
                   <div className="wizard-choice-list">
                     {([
-                      ['daily', 'Todos los dÃ­as'],
-                      ['every_two_days', 'Cada 2 dÃ­as'],
+                      ['daily', 'Todos los días'],
+                      ['every_two_days', 'Cada 2 días'],
                       ['weekly', 'Cada semana'],
                       ['custom', 'Otra frecuencia'],
                     ] as const).map(([kind, label]) => (
@@ -424,7 +428,7 @@ export function MedicationWizard({
                         type="number"
                         value={draft.frequency.intervalDays}
                       />
-                      <span>dÃ­as</span>
+                      <span>días</span>
                     </label>
                   ) : null}
                   {errorMessage ? <p className="wizard-error" role="alert">{errorMessage}</p> : null}
@@ -434,7 +438,7 @@ export function MedicationWizard({
               {step === 3 ? (
                 <fieldset className="wizard-step-panel">
                   <legend className="visually-hidden">Horarios</legend>
-                  <StepTitle icon="clock" step={step}>Â¿A quÃ© horas<br />lo tomas?</StepTitle>
+                  <StepTitle icon="clock" step={step}>¿A qué horas <br />lo tomas?</StepTitle>
                   <div className="schedule-kind wizard-choice-list wizard-choice-list--two">
                     <label>
                       <input
@@ -455,7 +459,7 @@ export function MedicationWizard({
                         })}
                         type="radio"
                       />
-                      <span>Cada cierto nÃºmero de horas</span>
+                      <span>Cada cierto número de horas</span>
                     </label>
                   </div>
 
@@ -479,7 +483,7 @@ export function MedicationWizard({
                               onClick={() => removeFixedTime(index)}
                               type="button"
                             >
-                              Ã—
+                              ×
                             </button>
                           ) : null}
                         </div>
@@ -491,7 +495,7 @@ export function MedicationWizard({
                   ) : (
                     <div className="wizard-interval-fields">
                       <label className="wizard-field" htmlFor="interval-hours">
-                        <span>Cada cuÃ¡ntas horas</span>
+                        <span>Cada cuántas horas</span>
                         <input
                           id="interval-hours"
                           inputMode="numeric"
@@ -511,7 +515,7 @@ export function MedicationWizard({
                           value={draft.schedule.firstTime}
                         />
                       </label>
-                      <p className="wizard-help">Usa el intervalo exacto indicado por tu mÃ©dico. No equivale automÃ¡ticamente a â€œveces al dÃ­aâ€.</p>
+                      <p className="wizard-help">Usa el intervalo exacto indicado por tu médico. No equivale automáticamente a “veces al día”.</p>
                     </div>
                   )}
                   {errorMessage ? <p className="wizard-error" role="alert">{errorMessage}</p> : null}
@@ -521,7 +525,7 @@ export function MedicationWizard({
               {step === 4 ? (
                 <fieldset className="wizard-step-panel">
                   <legend className="visually-hidden">Fecha de inicio</legend>
-                  <StepTitle icon="calendar" step={step}>Â¿CuÃ¡ndo empiezas<br />a tomarlo?</StepTitle>
+                  <StepTitle icon="calendar" step={step}>¿Cuándo empiezas <br />a tomarlo?</StepTitle>
                   <label className="wizard-date-field" htmlFor="medication-start-date">
                     <TugaIcon name="calendar" />
                     <span className="visually-hidden">Fecha inicial indicada</span>
@@ -533,15 +537,15 @@ export function MedicationWizard({
                       value={draft.startDate}
                     />
                   </label>
-                  <p className="wizard-help">La fecha inicial cuenta como el primer dÃ­a del tratamiento.</p>
+                  <p className="wizard-help">La fecha inicial cuenta como el primer día del tratamiento.</p>
                   {errorMessage ? <p className="wizard-error" role="alert">{errorMessage}</p> : null}
                 </fieldset>
               ) : null}
 
               {step === 5 ? (
                 <fieldset className="wizard-step-panel wizard-step-panel--duration">
-                  <legend className="visually-hidden">DuraciÃ³n</legend>
-                  <StepTitle icon="pending" step={step}>Â¿Por cuÃ¡nto tiempo<br />lo tomarÃ¡s?</StepTitle>
+                  <legend className="visually-hidden">Duración</legend>
+                  <StepTitle icon="pending" step={step}>¿Por cuánto tiempo <br />lo tomarás?</StepTitle>
                   <div className="wizard-choice-list">
                     <label>
                       <input
@@ -550,7 +554,7 @@ export function MedicationWizard({
                         onChange={() => updateDurationKind('indefinite')}
                         type="radio"
                       />
-                      <span>De forma continua <small>(sin fecha de finalizaciÃ³n)</small></span>
+                      <span>De forma continua <small>(sin fecha de finalización)</small></span>
                     </label>
                     <label>
                       <input
@@ -559,20 +563,20 @@ export function MedicationWizard({
                         onChange={() => updateDurationKind('days')}
                         type="radio"
                       />
-                      <span>Por un tiempo especÃ­fico</span>
+                      <span>Por un tiempo específico</span>
                     </label>
                   </div>
 
                   {draft.duration.kind !== 'indefinite' ? (
                     <div className="wizard-duration-fields">
                       <label className="wizard-field" htmlFor="duration-kind">
-                        <span>Indica la duraciÃ³n</span>
+                        <span>Indica la duración</span>
                         <select
                           id="duration-kind"
                           onChange={(event) => updateDurationKind(event.target.value as DurationKind)}
                           value={draft.duration.kind}
                         >
-                          <option value="days">DÃ­as</option>
+                          <option value="days">Días</option>
                           <option value="weeks">Semanas</option>
                           <option value="months">Meses calendario</option>
                           <option value="end_date">Fecha final</option>
@@ -619,8 +623,8 @@ export function MedicationWizard({
                       <div><dt>Frecuencia</dt><dd>{formatFrequency(draft)}</dd></div>
                       <div><dt>Horarios</dt><dd>{formatSchedule(draft)}</dd></div>
                       <div><dt>Inicio</dt><dd>{draft.startDate}</dd></div>
-                      <div><dt>DuraciÃ³n</dt><dd>{formatDuration(draft)}</dd></div>
-                      {endDate ? <div><dt>Ãšltimo dÃ­a incluido</dt><dd>{endDate}</dd></div> : null}
+                      <div><dt>Duración</dt><dd>{formatDuration(draft)}</dd></div>
+                      {endDate ? <div><dt>Último día incluido</dt><dd>{endDate}</dd></div> : null}
                     </dl>
                   </section>
                   {errorMessage ? <p className="wizard-error" role="alert">{errorMessage}</p> : null}
@@ -631,10 +635,10 @@ export function MedicationWizard({
             <div className="medication-wizard-footer">
               <button className="tuga-button-primary wizard-main-action" disabled={isSaving} type="submit">
                 {isSaving
-                  ? 'Guardandoâ€¦'
+                  ? 'Guardando…'
                   : step === 5
-                    ? <><span aria-hidden="true">âœ“</span> {submitLabel}</>
-                    : <>Continuar <span aria-hidden="true">â†’</span></>}
+                    ? <><span aria-hidden="true">✓</span> {submitLabel}</>
+                    : <>Continuar <span aria-hidden="true">→</span></>}
               </button>
             </div>
           </form>

@@ -1,5 +1,14 @@
 # Progreso de TUGA
 
+## Agregar medicamento — rediseño del mockup (2026-11-13)
+
+- Asistente real de introducción y seis pasos: nombre, dosis, frecuencia, horarios, inicio y duración con resumen final.
+- Conserva datos al regresar, valida antes de avanzar, admite horarios fijos o por intervalo, frecuencia por días, duración continua, días, semanas, meses calendario o fecha final y evita guardados duplicados.
+- Frecuencias distintas de diaria se guardan en `recurrence_config`; la migración aditiva `20261113000200_add_schedule_frequency.sql` hace que el generador de tomas respete `intervalDays`.
+- Validación aprobada: 15 pruebas Vitest focalizadas, 23 pruebas pgTAP de tomas, ESLint focalizado, TypeScript/build Vite y un recorrido Playwright en 360, 390 y 430 px.
+- Capturas comparadas con el mockup: `docs/capturas/agregar-medicamento-*-390x844.png`.
+- Pendiente: aplicar la migración nueva al proyecto remoto con autorización; no se reconstruyó Docker ni se ejecutó Playwright completo.
+
 ## Estado
 
 Etapa 7 completada localmente. Una Edge Function protegida comprueba PostgreSQL con una función SQL de solo lectura que no accede a tablas ni escribe actividad. Responde únicamente `ok` o indisponibilidad, aplica timeout y admite una sesión válida de TUGA o una secret key de servicio.
