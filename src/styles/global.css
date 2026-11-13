@@ -1390,50 +1390,36 @@ button {
 
 /* Bienvenida e inicio con Google. */
 .welcome-screen {
-  padding: 18px 14px;
-  background:
-    linear-gradient(180deg, var(--tuga-background) 0 72%, var(--tuga-green-light) 100%);
+  padding: 24px 16px 32px;
+  background-color: var(--tuga-background);
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .welcome-panel {
   grid-template-columns: minmax(0, 1fr);
-  gap: 14px;
-  width: min(100%, 600px);
-  padding: clamp(22px, 6vw, 42px);
-  overflow: hidden;
-  border-color: var(--tuga-primary);
-  border-radius: 32px;
-  box-shadow: 0 18px 45px rgb(0 75 56 / 16%);
+  gap: clamp(14px, 3vh, 24px);
+  width: min(100%, 560px);
+  padding: clamp(8px, 3vw, 24px);
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   text-align: center;
 }
 
-.welcome-logo {
-  position: relative;
-  display: block;
-  width: 230px;
-  height: 74px;
-  overflow: hidden;
-}
-
-.welcome-logo img {
-  position: absolute;
-  top: -42px;
-  left: 50%;
-  width: 270px;
-  max-width: none;
-  transform: translateX(-50%);
-}
-
-.welcome-mascot {
+.welcome-brand {
   grid-column: 1;
   grid-row: auto;
-  width: min(260px, 76vw);
-  max-height: 270px;
+  width: min(360px, 84vw);
+  max-height: min(42vh, 400px);
+  object-fit: contain;
 }
 
 .welcome-copy,
-.login-panel,
-.welcome-disclaimer {
+.login-panel {
   grid-column: 1;
   justify-self: stretch;
 }
@@ -1447,6 +1433,7 @@ button {
   margin-left: auto;
   color: var(--tuga-text-secondary);
   font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .login-panel {
@@ -1457,16 +1444,30 @@ button {
 
 .login-panel .login-button {
   min-height: 68px;
-  border: 3px solid var(--tuga-primary);
+  gap: 16px;
+  border: 0;
+  border-radius: 999px;
   background: var(--tuga-surface);
   color: var(--tuga-primary-dark);
-  box-shadow: 0 8px 18px rgb(0 75 56 / 14%);
+  box-shadow: 0 9px 22px rgb(0 75 56 / 22%);
   font-size: clamp(1.25rem, 6vw, 1.55rem);
 }
 
 .login-panel .login-button:hover,
 .login-panel .login-button:focus-visible {
   background: var(--tuga-green-light);
+}
+
+.login-panel .login-button:active {
+  background: var(--tuga-surface);
+  box-shadow: 0 4px 12px rgb(0 75 56 / 18%);
+  transform: translateY(1px);
+}
+
+.google-mark {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
 }
 
 /* Hoy. */
@@ -1840,17 +1841,12 @@ button {
   }
 
   .welcome-panel {
-    padding: 20px 16px 24px;
+    padding: 4px 0 20px;
   }
 
-  .welcome-logo {
-    width: 200px;
-    height: 64px;
-  }
-
-  .welcome-logo img {
-    top: -36px;
-    width: 235px;
+  .welcome-brand {
+    width: min(300px, 82vw);
+    max-height: 350px;
   }
 
   .today-hero {

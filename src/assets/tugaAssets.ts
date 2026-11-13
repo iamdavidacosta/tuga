@@ -4,6 +4,10 @@ export const tugaAssets = {
   appIcon: `${tugaAssetRoot}/app-icon.png`,
   logos: {
     text: `${tugaAssetRoot}/logos/tuga-texto-verde.png`,
+    smilingVertical: `${tugaAssetRoot}/logos/tuga-sonriente-vertical.png`,
+  },
+  patterns: {
+    landscape: `${tugaAssetRoot}/patrones/paisaje-verde-capas.png`,
   },
   mascots: {
     calendar: `${tugaAssetRoot}/mascotas/tuga-calendario.png`,
@@ -21,6 +25,10 @@ export const tugaAssets = {
     clock: `${tugaAssetRoot}/iconos/reloj.svg`,
     taken: `${tugaAssetRoot}/iconos/tomado.svg`,
   },
+} as const
+
+export const providerAssets = {
+  google: '/assets/brands/google-g.svg',
 } as const
 
 export type TugaIconName = keyof typeof tugaAssets.icons

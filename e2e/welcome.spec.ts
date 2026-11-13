@@ -10,7 +10,7 @@ test('la bienvenida ofrece el inicio de sesión con Google', async ({ page }) =>
     page.getByRole('button', { name: 'Entrar con Google' }),
   ).toBeVisible()
   await expect(
-    page.getByText('Usaremos tu cuenta de Google para identificarte de forma segura.'),
+    page.getByText('Te ayudamos a recordar tus medicamentos de forma clara, amable y a tiempo.'),
   ).toBeVisible()
 })
 

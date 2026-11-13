@@ -34,3 +34,9 @@ Esperar la solicitud explícita de la etapa 8. No se adelantó su implementació
 - El encabezado usa el logotipo oficial de TUGA y los enlaces de regreso ahora se presentan como botones circulares accesibles.
 - Validación: 11 pruebas Vitest focalizadas, 9 pruebas Playwright de bienvenida y anchos móviles, ESLint, TypeScript estricto y build Vite aprobados.
 - No se ejecutaron pruebas E2E autenticadas, la suite Playwright completa ni build Docker. Verificar visualmente las pantallas privadas con una sesión real antes de publicar.
+
+### Login refinado
+
+- La bienvenida usa el logo vertical sonriente y el paisaje en capas originales, sin tarjeta blanca.
+- Conserva únicamente el mensaje del mockup y el acceso con Google, ahora con su marca visual.
+- Validación focalizada: 4 pruebas Vitest y 9 pruebas Playwright aprobadas; revisión visual en un dispositivo Android simulado.
