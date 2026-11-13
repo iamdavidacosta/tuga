@@ -1472,27 +1472,34 @@ button {
 
 /* Hoy. */
 .today-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(92px, 128px);
-  align-items: center;
-  gap: 12px;
-  min-height: 150px;
+  position: relative;
+  display: block;
+  min-height: 190px;
   padding: clamp(18px, 5vw, 28px);
   overflow: hidden;
   border: 2px solid var(--tuga-green-light);
   border-radius: 26px;
-  background: linear-gradient(135deg, var(--tuga-surface), var(--tuga-green-light));
+  background: linear-gradient(160deg, var(--tuga-surface) 35%, var(--tuga-green-light));
   box-shadow: 0 10px 28px rgb(0 75 56 / 10%);
+}
+
+.today-hero__copy {
+  position: relative;
+  z-index: 1;
+  width: min(72%, 560px);
 }
 
 .today-hero h1 {
   margin: 5px 0 4px;
-  font-size: clamp(2rem, 9vw, 3rem);
+  font-size: clamp(1.9rem, 8vw, 3rem);
 }
 
-.today-hero img {
-  width: 100%;
-  max-height: 150px;
+.today-hero .today-hero__mascot {
+  position: absolute;
+  right: clamp(-20px, -1vw, 0px);
+  bottom: -26px;
+  width: clamp(150px, 32vw, 220px);
+  max-height: none;
   object-fit: contain;
 }
 
@@ -1516,6 +1523,8 @@ button {
   font-family: var(--tuga-font-heading);
   font-size: clamp(1.35rem, 6vw, 1.75rem);
   font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
 }
 
 .today-next-card__heading .tuga-icon {
@@ -1537,7 +1546,9 @@ button {
   justify-content: center;
 }
 
-.medication-summary--featured h2 {
+.medication-summary--featured h2,
+.medication-summary--featured h3 {
+  margin: 0;
   font-size: clamp(1.8rem, 8vw, 2.55rem);
 }
 
@@ -1572,6 +1583,121 @@ button {
   padding: 0 20px 12px;
   background: var(--tuga-surface);
   text-align: center;
+}
+
+.today-progress-card,
+.today-other-card {
+  border-color: rgb(0 75 56 / 24%);
+  border-radius: 26px;
+  background: var(--tuga-surface);
+  box-shadow: 0 10px 26px rgb(0 75 56 / 10%);
+}
+
+.today-progress-card .section-heading-row,
+.today-other-card .section-heading-row {
+  align-items: center;
+  flex-direction: row;
+}
+
+.today-progress-count {
+  flex: 0 0 auto;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--tuga-green-light);
+  color: var(--tuga-primary-dark);
+  font-family: var(--tuga-font-heading);
+  font-size: 1rem;
+}
+
+.today-progress-card .daily-progress {
+  height: 26px;
+  overflow: hidden;
+  border: 2px solid var(--tuga-primary);
+  border-radius: 999px;
+  background: var(--tuga-green-light);
+  appearance: none;
+}
+
+.today-progress-card .daily-progress::-webkit-progress-bar {
+  border-radius: 999px;
+  background: var(--tuga-green-light);
+}
+
+.today-progress-card .daily-progress::-webkit-progress-value {
+  border-radius: 999px;
+  background: var(--tuga-primary);
+}
+
+.today-progress-card .daily-progress::-moz-progress-bar {
+  border-radius: 999px;
+  background: var(--tuga-primary);
+}
+
+.today-progress-summary {
+  color: var(--tuga-text-secondary);
+  text-align: center;
+}
+
+.today-progress-summary strong {
+  color: var(--tuga-primary-dark);
+  font-family: var(--tuga-font-heading);
+}
+
+.today-other-card .section-heading-row {
+  gap: 8px;
+}
+
+.today-other-card .inline-link {
+  font-size: clamp(0.88rem, 3.8vw, 1rem);
+  white-space: nowrap;
+}
+
+.today-intake-list {
+  gap: 10px;
+}
+
+.today-intake-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid var(--tuga-green-light);
+  background: var(--tuga-background);
+}
+
+.today-intake-row__details {
+  min-width: 0;
+}
+
+.today-intake-row h3 {
+  font-size: clamp(1.05rem, 4.5vw, 1.4rem);
+  line-height: 1.15;
+}
+
+.today-intake-row__details p {
+  color: var(--tuga-text-secondary);
+  font-size: clamp(0.82rem, 3.5vw, 1rem);
+  line-height: 1.3;
+}
+
+.today-intake-row__actions {
+  width: fit-content;
+  max-width: 124px;
+  justify-items: end;
+  text-align: right;
+}
+
+.today-intake-row__actions .status-badge {
+  min-height: 36px;
+  padding: 5px 8px;
+  font-size: clamp(0.82rem, 3.5vw, 0.95rem);
+}
+
+.today-intake-row__actions .text-link {
+  min-height: 40px;
+  font-size: 0.9rem;
 }
 
 /* Calendario. */
@@ -1850,7 +1976,18 @@ button {
   }
 
   .today-hero {
-    grid-template-columns: minmax(0, 1fr) 92px;
+    min-height: 174px;
+    padding: 18px 16px;
+  }
+
+  .today-hero__copy {
+    width: 68%;
+  }
+
+  .today-hero .today-hero__mascot {
+    right: -22px;
+    bottom: -18px;
+    width: 150px;
   }
 
   .today-next-card {
@@ -1865,6 +2002,30 @@ button {
   .medication-summary--featured .icon-tile--large {
     width: 72px;
     height: 72px;
+  }
+
+  .today-progress-card,
+  .today-other-card {
+    padding: 18px 14px;
+  }
+
+  .today-other-card .section-heading-row {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .today-other-card .section-heading-row h2 {
+    font-size: 1.25rem;
+  }
+
+  .today-intake-row {
+    grid-template-columns: minmax(0, 1fr) minmax(92px, auto);
+    align-items: center;
+    padding: 12px 10px;
+  }
+
+  .today-intake-row__actions {
+    max-width: 106px;
   }
 
   .month-weekdays,

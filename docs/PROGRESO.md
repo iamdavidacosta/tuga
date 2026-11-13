@@ -40,3 +40,9 @@ Esperar la solicitud explícita de la etapa 8. No se adelantó su implementació
 - La bienvenida usa el logo vertical sonriente y el paisaje en capas originales, sin tarjeta blanca.
 - Conserva únicamente el mensaje del mockup y el acceso con Google, ahora con su marca visual.
 - Validación focalizada: 4 pruebas Vitest y 9 pruebas Playwright aprobadas; revisión visual en un dispositivo Android simulado.
+
+### Vista Hoy refinada
+
+- El saludo integra la mascota oficial que saluda, la próxima toma conserva hora, dosis, estado y sus dos acciones, y el progreso adopta la estética de TUGA.
+- Las demás tomas permanecen en una lista compacta adaptable para nombres largos y pantallas estrechas.
+- Validación focalizada: 5 pruebas Vitest, ESLint, TypeScript estricto y build Vite aprobados.
