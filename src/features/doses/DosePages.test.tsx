@@ -49,6 +49,15 @@ function renderConfirmation() {
 }
 
 describe('control de tomas', () => {
+  it('usa la mascota oficial con reloj en la confirmación', async () => {
+    renderConfirmation()
+
+    expect(await screen.findByAltText('Tuga sostiene un reloj despertador')).toHaveAttribute(
+      'src',
+      '/assets/tuga/mascotas/tuga-reloj-despertador.png',
+    )
+  })
+
   beforeEach(() => {
     vi.clearAllMocks()
     doseService.getDoseOccurrence.mockResolvedValue(pendingOccurrence)

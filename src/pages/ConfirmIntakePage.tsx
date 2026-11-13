@@ -108,7 +108,7 @@ export function ConfirmIntakePage() {
       {errorMessage ? <p className="auth-error" role="alert">{errorMessage}</p> : null}
 
       <section className="intake-card confirmation-card confirmation-dialog" aria-labelledby="confirm-intake-title">
-        <img className="confirmation-dialog__mascot" src={tugaAssets.mascots.heart} alt="TUGA te acompaña a confirmar tu toma" />
+        <img className="confirmation-dialog__mascot" src={tugaAssets.mascots.alarmClock} alt="Tuga sostiene un reloj despertador" />
         <div className="confirmation-dialog__question">
           <h2 className="tuga-heading" id="confirm-intake-title">¿Ya te tomaste tu medicamento?</h2>
           <p>Confirma solamente cuando ya hayas tomado esta dosis.</p>

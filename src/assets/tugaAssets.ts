@@ -14,6 +14,7 @@ export const tugaAssets = {
     capsule: `${tugaAssetRoot}/mascotas/tuga-capsula.png`,
     celebration: `${tugaAssetRoot}/mascotas/tuga-celebra-exito.png`,
     heart: `${tugaAssetRoot}/mascotas/tuga-corazon.png`,
+    alarmClock: `${tugaAssetRoot}/mascotas/tuga-reloj-despertador.png`,
     salute: `${tugaAssetRoot}/mascotas/tuga-saluda.png`,
   },
   icons: {
