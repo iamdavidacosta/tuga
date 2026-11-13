@@ -1,0 +1,78 @@
+/* TUGA Design System 1.0 — tokens de interfaz.
+   Importante: cargar Nunito e Inter en la app mediante archivos/licencias o proveedor de fuentes.
+   No se incrustan fuentes en este paquete.
+   Referencia completa: ../TUGA_DESIGN_SYSTEM.md */
+:root {
+  /* Colores corporativos */
+  --tuga-primary: #006347;
+  --tuga-primary-dark: #004B38;
+  --tuga-mascot: #BEE078;
+  --tuga-green-light: #DDF0A5;
+  --tuga-green-natural: #8DC14C;
+  --tuga-orange: #ED7843;
+  --tuga-cream: #FDDEA7;
+  --tuga-coral: #F47F72;
+
+  /* Colores de interfaz accesibles */
+  --tuga-text: #19362D;
+  --tuga-text-secondary: #52645A;
+  --tuga-background: #F7FAF4;
+  --tuga-surface: #FFFFFF;
+  --tuga-action-bg: var(--tuga-primary);
+  --tuga-action-fg: #FFFFFF;
+  --tuga-pending-bg: var(--tuga-cream);
+  --tuga-pending-fg: var(--tuga-text);
+  --tuga-completed-bg: var(--tuga-primary);
+  --tuga-completed-fg: #FFFFFF;
+
+  /* Tipografías y escala base. Mantener adaptación a preferencias del sistema */
+  --tuga-font-heading: "Nunito", system-ui, sans-serif;
+  --tuga-font-body: "Inter", system-ui, sans-serif;
+  --tuga-text-body: 1.25rem;  /* 20px si 1rem = 16px */
+  --tuga-text-secondary-size: 1.125rem;
+  --tuga-text-page-title: 2rem;
+  --tuga-body-line-height: 1.5;
+  --tuga-heading-line-height: 1.25;
+
+  /* Interacciones: mínimo de diseño (más estricto que WCAG AA) */
+  --tuga-touch-min: 48px;
+  --tuga-button-min-height: 56px;
+  --tuga-radius-button: 16px;
+  --tuga-radius-card: 20px;
+  --tuga-focus-ring: 3px solid #004B38;
+}
+
+.tuga-app {
+  background: var(--tuga-background);
+  color: var(--tuga-text);
+  font-family: var(--tuga-font-body);
+  font-size: var(--tuga-text-body);
+  line-height: var(--tuga-body-line-height);
+}
+.tuga-heading {
+  font-family: var(--tuga-font-heading);
+  line-height: var(--tuga-heading-line-height);
+  font-weight: 700;
+}
+.tuga-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tuga-button-min-height);
+  min-width: var(--tuga-touch-min);
+  padding: 12px 20px;
+  border: 0;
+  border-radius: var(--tuga-radius-button);
+  background: var(--tuga-action-bg);
+  color: var(--tuga-action-fg);
+  font: 700 1.25rem var(--tuga-font-heading);
+  cursor: pointer;
+}
+.tuga-button-primary:active { background: var(--tuga-primary-dark); }
+.tuga-app :focus-visible { outline: var(--tuga-focus-ring); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .tuga-app *, .tuga-app *::before, .tuga-app *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

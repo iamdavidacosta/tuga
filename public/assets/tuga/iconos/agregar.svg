@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="iconTitle iconDesc">
+<title id="iconTitle">TUGA · Agregar</title>
+<desc id="iconDesc">Símbolo más blanco sobre botón verde</desc>
+<defs>
+  <linearGradient id="mint" x1="0.08" y1="0.03" x2="0.94" y2="1" objectBoundingBox="true"><stop offset="0" stop-color="#7DD7A2"/><stop offset="0.52" stop-color="#4EB97B"/><stop offset="1" stop-color="#32A366"/></linearGradient>
+  <linearGradient id="mintDark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#42B77A"/><stop offset="1" stop-color="#167849"/></linearGradient>
+  <linearGradient id="coral" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFA099"/><stop offset="0.5" stop-color="#F27773"/><stop offset="1" stop-color="#E35D63"/></linearGradient>
+  <linearGradient id="cream" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFF7"/><stop offset="0.6" stop-color="#FFF9E7"/><stop offset="1" stop-color="#F5EED9"/></linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE36D"/><stop offset="0.44" stop-color="#FFCE44"/><stop offset="1" stop-color="#F6AC28"/></linearGradient>
+  <linearGradient id="gray" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4FAF7"/><stop offset="0.65" stop-color="#DAE6E0"/><stop offset="1" stop-color="#B7CEC6"/></linearGradient>
+  <filter id="lift" x="-32%" y="-32%" width="164%" height="178%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.8" stdDeviation="1.3" flood-color="#06251A" flood-opacity=".24"/></filter>
+ </defs>
+<g filter="url(#lift)"><circle cx="32" cy="32" r="21.5" fill="url(#mint)" stroke="#0B4A30" stroke-width="3.5"/>
+<path d="M32 21.2V42.8M21.2 32H42.8" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+<path d="M19 21.5C22 17.4 27 15.2 30.9 15" fill="none" stroke="#E5FFEF" stroke-width="2.2" stroke-linecap="round" opacity=".5"/></g>
+</svg>

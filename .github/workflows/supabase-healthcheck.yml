@@ -1,0 +1,33 @@
+name: Supabase healthcheck
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  healthcheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Comprobar Supabase
+        env:
+          HEALTHCHECK_URL: ${{ secrets.TUGA_HEALTHCHECK_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.TUGA_SUPABASE_SECRET_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          response_file="$(mktemp)"
+          trap 'rm -f "$response_file"' EXIT
+          status="$(curl --silent --show-error \
+            --output "$response_file" \
+            --write-out '%{http_code}' \
+            --max-time 15 \
+            --header "apikey: $SUPABASE_SECRET_KEY" \
+            "$HEALTHCHECK_URL")"
+          test "$status" = '200'
+          jq --exit-status '.status == "ok"' "$response_file" >/dev/null
+          echo 'Supabase respondió correctamente.'

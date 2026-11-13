@@ -1,0 +1,28 @@
+# Dependencias
+node_modules/
+
+# Compilación y cobertura
+dist/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# Resultados de pruebas
+playwright-report/
+test-results/
+
+# Variables locales y secretos
+.env
+.env.*
+!.env.example
+
+# Editores y sistema operativo
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

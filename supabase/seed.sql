@@ -1,0 +1,2 @@
+-- No se cargan datos de ejemplo en la base local.
+-- Las pruebas crean y revierten sus propios datos dentro de transacciones.

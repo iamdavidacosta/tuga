@@ -1,0 +1,35 @@
+{
+  "id": "/",
+  "name": "TUGA — Recordatorios de medicamentos",
+  "short_name": "TUGA",
+  "description": "Recordatorios y registro de medicamentos con una experiencia clara y amable.",
+  "lang": "es-CO",
+  "start_url": "/hoy",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFF8E8",
+  "theme_color": "#006347",
+  "categories": ["medical", "health", "lifestyle"],
+  "icons": [
+    {
+      "src": "/assets/tuga/app-icon.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Medicamentos de hoy",
+      "short_name": "Hoy",
+      "url": "/hoy",
+      "icons": [{ "src": "/assets/tuga/app-icon.png", "sizes": "1254x1254", "type": "image/png" }]
+    },
+    {
+      "name": "Calendario",
+      "short_name": "Calendario",
+      "url": "/calendario",
+      "icons": [{ "src": "/assets/tuga/app-icon.png", "sizes": "1254x1254", "type": "image/png" }]
+    }
+  ]
+}
