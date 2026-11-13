@@ -159,23 +159,29 @@ export function TodayPage() {
 
       {otherOccurrences.length > 0 ? (
         <section className="compact-section today-other-card" aria-labelledby="other-intakes-title">
-          <div className="section-heading-row">
-            <h2 className="tuga-heading" id="other-intakes-title">Otras tomas de hoy</h2>
+          <div className="today-other-card__heading">
+            <h2 className="tuga-heading" id="other-intakes-title">
+              <TugaIcon name="medication" />
+              <span>Otras tomas de hoy</span>
+            </h2>
             <Link className="text-link inline-link" to="/historial">Ver historial</Link>
           </div>
-          <div className="card-list today-intake-list">
-            {otherOccurrences.map((occurrence) => (
-              <article className="intake-row intake-row--linked today-intake-row" key={occurrence.id}>
-                <div className="today-intake-row__details">
-                  <h3 className="tuga-heading">{occurrence.medicationName}</h3>
-                  <p>{formatDoseAmount(occurrence.dosageAmount)} {occurrence.dosageUnit} · {formatTodayTime(occurrence.localTime)}</p>
-                </div>
-                <div className="intake-row__actions today-intake-row__actions">
-                  <StatusBadge status={occurrence.status} />
-                  <Link className="text-link" to={`/tomas/${occurrence.id}/confirmar`}>Ver toma</Link>
-                </div>
-              </article>
-            ))}
+          <div className="today-other-card__body">
+            <div className="card-list today-intake-list">
+              {otherOccurrences.map((occurrence) => (
+                <article className="intake-row intake-row--linked today-intake-row" key={occurrence.id}>
+                  <span className="icon-tile today-intake-row__icon"><TugaIcon name="medication" /></span>
+                  <div className="today-intake-row__details">
+                    <h3 className="tuga-heading">{occurrence.medicationName}</h3>
+                    <p>{formatDoseAmount(occurrence.dosageAmount)} {occurrence.dosageUnit} · {formatTodayTime(occurrence.localTime)}</p>
+                  </div>
+                  <div className="intake-row__actions today-intake-row__actions">
+                    <StatusBadge status={occurrence.status} />
+                    <Link className="text-link" to={`/tomas/${occurrence.id}/confirmar`}>Ver toma</Link>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
       ) : null}

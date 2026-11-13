@@ -102,6 +102,34 @@ test('Hoy conserva la composición del mockup sin desbordamiento', async ({ page
     await page.goto('/hoy')
     await expect(page.getByRole('heading', { name: 'Hola, Marta' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Próximo medicamento' })).toBeVisible()
+    await expect(page.locator('.today-intake-row__icon')).toHaveCount(2)
+
+    const composition = await page.evaluate(() => {
+      const rect = (selector: string) => document.querySelector(selector)!.getBoundingClientRect()
+      const mascot = rect('.today-hero__mascot')
+      const greeting = rect('.today-hero__copy')
+      const hero = rect('.today-hero')
+      const nextHeading = rect('.today-next-card__heading')
+      const nextBody = rect('.today-next-card__body')
+      const otherHeading = rect('.today-other-card__heading')
+      const otherBody = rect('.today-other-card__body')
+      return {
+        brandBackground: getComputedStyle(document.querySelector('.brand-header')!).backgroundColor,
+        mascotContained: mascot.left >= hero.left && mascot.right <= hero.right && mascot.bottom <= hero.bottom,
+        greetingSeparated: greeting.right <= mascot.left,
+        nextCardOverlaps: nextBody.top < nextHeading.bottom,
+        otherCardOverlaps: otherBody.top < otherHeading.bottom,
+      }
+    })
+
+    expect(composition).toEqual({
+      brandBackground: 'rgb(253, 248, 239)',
+      mascotContained: true,
+      greetingSeparated: true,
+      nextCardOverlaps: true,
+      otherCardOverlaps: true,
+    })
+
     const overflow = await page.evaluate(() => ({
       documentWidth: document.documentElement.scrollWidth,
       viewportWidth: window.innerWidth,
