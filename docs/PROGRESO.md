@@ -1,5 +1,13 @@
 # Progreso de TUGA
 
+## Calendario — ajuste al mockup (2026-11-13)
+
+- Conserva la lógica real de mes, día y ocurrencias, con encabezado TUGA, selector mensual en píldora, celdas amplias por estado, leyenda y detalle navegable del día.
+- El detalle muestra medicamentos, dosis, hora y estado; los días vacíos presentan un mensaje accesible dentro de la tarjeta.
+- Validación aprobada: 5 pruebas Vitest focalizadas, TypeScript estricto, ESLint focalizado y un recorrido Playwright en 360, 390 y 430 px.
+- Capturas comparadas con el mockup: `docs/capturas/calendario-390x844.png` y `docs/capturas/calendario-detalle-390x844.png`.
+- No se modificaron Supabase, servicios ni lógica temporal; no se ejecutaron Playwright completo ni Docker.
+
 ## Medicamentos — ajuste al mockup (2026-11-13)
 
 - La lista conserva los datos reales y ahora muestra encabezado TUGA, descripción, pestañas con contadores, tarjetas con dosis/frecuencia/hora y acceso inferior para añadir medicamentos.
