@@ -96,8 +96,8 @@ button {
   justify-content: center;
   width: 100%;
   padding: 8px 16px;
-  border-bottom: 2px solid var(--tuga-green-light);
-  background: var(--tuga-surface);
+  border-bottom: 2px solid #FDF8EF;
+  background: #FDF8EF;
 }
 
 .brand-wordmark {
@@ -2971,5 +2971,338 @@ body:has(.medication-wizard-page) {
 
   .medication-wizard-scroll {
     padding-top: 2px;
+  }
+}
+
+/* Lista de tratamientos, fiel al mockup de Medicamentos. */
+.app-shell:has(.medications-screen) {
+  background-color: #FDF8EF;
+  background-image:
+    linear-gradient(rgb(253 248 239 / 92%), rgb(253 248 239 / 92%)),
+    url('/assets/tuga/patrones/paisaje-verde-capas.png');
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.app-shell:has(.medications-screen) > .brand-header {
+  display: none;
+}
+
+.app-shell:has(.medications-screen) > .app-content {
+  width: min(100%, 680px);
+  padding: 0 16px 220px;
+}
+
+.medications-screen {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+}
+
+.medications-header {
+  position: sticky;
+  z-index: 6;
+  top: 0;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  align-items: center;
+  gap: 8px;
+  margin-inline: -16px;
+  padding: max(10px, env(safe-area-inset-top)) 16px 8px;
+  background: #FDF8EF;
+}
+
+.medications-header__button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  background: color-mix(in srgb, var(--tuga-surface) 90%, var(--tuga-green-light));
+  box-shadow: 0 4px 12px rgb(0 75 56 / 18%);
+  color: var(--tuga-primary-dark);
+  font: 900 2rem/1 var(--tuga-font-heading);
+  text-decoration: none;
+}
+
+.medications-header__button .tuga-icon {
+  width: 31px;
+  height: 31px;
+}
+
+.medications-header__button:hover,
+.medications-header__button:active {
+  background: var(--tuga-green-light);
+}
+
+.medications-header__button:focus-visible,
+.medications-header__logo:focus-visible,
+.treatment-card:focus-visible,
+.medications-tabs button:focus-visible {
+  outline: 4px solid var(--tuga-warning);
+  outline-offset: 2px;
+}
+
+.medications-header__logo {
+  display: grid;
+  width: 120px;
+  height: 48px;
+  margin: 0 auto;
+  place-items: center;
+}
+
+.medications-header__logo img {
+  width: 120px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.medications-intro {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.medications-intro h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(1.8rem, 8vw, 2.35rem)/1 var(--tuga-font-heading);
+}
+
+.medications-intro__icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  place-items: center;
+  background: var(--tuga-green-light);
+}
+
+.medications-intro__icon .tuga-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.medications-intro p {
+  max-width: 540px;
+  color: var(--tuga-text-secondary);
+  font-size: clamp(1rem, 4.2vw, 1.12rem);
+  line-height: 1.3;
+}
+
+.medications-tabs {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  min-height: 54px;
+  overflow: hidden;
+  border: 2px solid var(--tuga-primary);
+  border-radius: 999px;
+  background: #fffdf8;
+}
+
+.medications-tabs button {
+  min-width: 0;
+  min-height: 50px;
+  padding: 8px 7px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(0.76rem, 3.2vw, 1rem)/1.05 var(--tuga-font-heading);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.medications-tabs button[aria-pressed='true'] {
+  background: var(--tuga-primary);
+  box-shadow: 0 4px 10px rgb(0 75 56 / 22%);
+  color: var(--tuga-surface);
+}
+
+.medications-list {
+  display: grid;
+  gap: 12px;
+}
+
+.treatment-card {
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 112px;
+  padding: 11px 10px;
+  border: 2px solid color-mix(in srgb, var(--tuga-primary) 22%, var(--tuga-green-light));
+  border-radius: 20px;
+  background: rgb(255 253 248 / 96%);
+  box-shadow: 0 5px 14px rgb(0 75 56 / 12%);
+  color: var(--tuga-text);
+  text-decoration: none;
+}
+
+.treatment-card:hover {
+  border-color: var(--tuga-primary);
+  transform: translateY(-1px);
+}
+
+.treatment-card:active {
+  transform: translateY(1px);
+}
+
+.treatment-card__icon {
+  display: grid;
+  width: 66px;
+  height: 76px;
+  border-radius: 17px;
+  place-items: center;
+  background: color-mix(in srgb, var(--tuga-green-light) 72%, var(--tuga-surface));
+}
+
+.treatment-card__icon .tuga-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.treatment-card__content {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.treatment-card__content strong {
+  display: -webkit-box;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(1.2rem, 5vw, 1.48rem)/1.05 var(--tuga-font-heading);
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.treatment-card__summary {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--tuga-text-secondary);
+  font-size: clamp(0.88rem, 3.7vw, 1rem);
+  line-height: 1.15;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.treatment-card__time {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 3px;
+  padding: 3px 9px 3px 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tuga-green-light) 78%, var(--tuga-surface));
+  color: var(--tuga-primary-dark);
+  font: 900 0.95rem/1 var(--tuga-font-heading);
+}
+
+.treatment-card__time .tuga-icon {
+  width: 23px;
+  height: 23px;
+}
+
+.treatment-card__time small {
+  font-size: 0.75rem;
+}
+
+.treatment-card__chevron {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  place-items: center;
+  background: color-mix(in srgb, var(--tuga-green-light) 72%, var(--tuga-surface));
+  color: var(--tuga-primary-dark);
+  font: 900 2.1rem/0.8 var(--tuga-font-heading);
+}
+
+.medications-empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.medications-empty-state > .tuga-icon {
+  width: 58px;
+  height: 58px;
+}
+
+.medications-add-action {
+  position: fixed;
+  z-index: 9;
+  right: 16px;
+  bottom: calc(104px + env(safe-area-inset-bottom));
+  left: 16px;
+  width: min(calc(100% - 32px), 520px);
+  margin: 0 auto;
+}
+
+.medications-add-action .tuga-button-primary {
+  width: 100%;
+  min-height: 58px;
+  border-radius: 999px;
+  box-shadow: 0 7px 18px rgb(0 75 56 / 28%);
+  font-size: 1.18rem;
+  text-decoration: none;
+}
+
+.medications-add-action .tuga-icon {
+  width: 31px;
+  height: 31px;
+}
+
+@media (max-width: 359px) {
+  .app-shell:has(.medications-screen) > .app-content {
+    padding-inline: 10px;
+  }
+
+  .medications-header {
+    margin-inline: -10px;
+    padding-inline: 10px;
+  }
+
+  .treatment-card {
+    grid-template-columns: 58px minmax(0, 1fr) 42px;
+    gap: 8px;
+    padding-inline: 8px;
+  }
+
+  .treatment-card__icon {
+    width: 58px;
+    height: 68px;
+  }
+
+  .treatment-card__icon .tuga-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .treatment-card__chevron {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .treatment-card,
+  .medications-tabs button,
+  .medications-header__button {
+    transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
   }
 }

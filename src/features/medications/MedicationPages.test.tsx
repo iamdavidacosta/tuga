@@ -65,12 +65,16 @@ describe('páginas de medicamentos', () => {
     )
 
     expect(await screen.findByText('Medicamento activo de prueba')).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Tratamientos activos (1)' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: 'Finalizados (1)' })).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.getByRole('link', { name: 'Añadir medicamento' })).toHaveAttribute('href', '/medicamentos/agregar')
     expect(screen.queryByText('Medicamento suspendido de prueba')).not.toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Finalizados' }))
+    await user.click(screen.getByRole('button', { name: 'Finalizados (1)' }))
 
     expect(screen.getByText('Medicamento suspendido de prueba')).toBeVisible()
     expect(screen.queryByText('Medicamento activo de prueba')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Finalizados (1)' })).toHaveAttribute('aria-pressed', 'true')
   })
 
   it('exige confirmación antes de suspender y conserva el historial', async () => {

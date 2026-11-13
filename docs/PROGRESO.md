@@ -1,5 +1,13 @@
 # Progreso de TUGA
 
+## Medicamentos — ajuste al mockup (2026-11-13)
+
+- La lista conserva los datos reales y ahora muestra encabezado TUGA, descripción, pestañas con contadores, tarjetas con dosis/frecuencia/hora y acceso inferior para añadir medicamentos.
+- El encabezado global usa el mismo fondo crema del logo para evitar el corte visual entre blanco y crema.
+- Validación aprobada: 2 pruebas Vitest focalizadas, TypeScript estricto, ESLint focalizado y un recorrido Playwright en 360, 390 y 430 px.
+- Captura comparada con el mockup: `docs/capturas/medicamentos-390x844.png`.
+- No se modificaron Supabase, servicios ni otras pantallas; no se ejecutaron Playwright completo ni Docker.
+
 ## Agregar medicamento — rediseño del mockup (2026-11-13)
 
 - Asistente real de introducción y seis pasos: nombre, dosis, frecuencia, horarios, inicio y duración con resumen final.
@@ -7,7 +15,7 @@
 - Frecuencias distintas de diaria se guardan en `recurrence_config`; la migración aditiva `20261113000200_add_schedule_frequency.sql` hace que el generador de tomas respete `intervalDays`.
 - Validación aprobada: 15 pruebas Vitest focalizadas, 23 pruebas pgTAP de tomas, ESLint focalizado, TypeScript/build Vite y un recorrido Playwright en 360, 390 y 430 px.
 - Capturas comparadas con el mockup: `docs/capturas/agregar-medicamento-*-390x844.png`.
-- Pendiente: aplicar la migración nueva al proyecto remoto con autorización; no se reconstruyó Docker ni se ejecutó Playwright completo.
+- La migración de frecuencia fue aplicada al proyecto remoto por el usuario; no se reconstruyó Docker ni se ejecutó Playwright completo.
 
 ## Estado
 
