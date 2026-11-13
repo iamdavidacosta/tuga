@@ -17,11 +17,12 @@ const durationMaximums = {
   months: 1_200,
 } as const
 
+const maximumFrequencyIntervalDays = 3_650
+
 export class MedicationValidationError extends Error {}
 
 function parseIsoDate(value: string): { year: number; month: number; day: number } | null {
   const match = isoDatePattern.exec(value)
-
   if (!match) return null
 
   const year = Number(match[1])
@@ -83,7 +84,7 @@ function calendarMonthEndDate(startDate: string, months: number): string {
 }
 
 function parseDurationAmount(duration: TreatmentDurationDraft): number | null {
-  if (duration.kind === 'indefinite') return null
+  if (duration.kind === 'indefinite' || duration.kind === 'end_date') return null
 
   const amount = Number(duration.amount)
   const maximum = durationMaximums[duration.kind]
@@ -103,6 +104,13 @@ export function calculateEndDate(
 
   if (duration.kind === 'indefinite') return null
 
+  if (duration.kind === 'end_date') {
+    if (!parseIsoDate(duration.endDate) || duration.endDate < startDate) {
+      throw new MedicationValidationError('La fecha final debe ser igual o posterior a la fecha inicial.')
+    }
+    return duration.endDate
+  }
+
   const amount = parseDurationAmount(duration)
   if (!amount) throw new MedicationValidationError('La duración no es válida.')
 
@@ -110,6 +118,17 @@ export function calculateEndDate(
   if (duration.kind === 'weeks') return addDays(startDate, amount * 7 - 1)
 
   return calendarMonthEndDate(startDate, amount)
+}
+
+export function getFrequencyIntervalDays(draft: MedicationDraft): number | null {
+  if (draft.frequency.kind === 'daily') return 1
+  if (draft.frequency.kind === 'every_two_days') return 2
+  if (draft.frequency.kind === 'weekly') return 7
+
+  const intervalDays = Number(draft.frequency.intervalDays)
+  return Number.isInteger(intervalDays) && intervalDays >= 1 && intervalDays <= maximumFrequencyIntervalDays
+    ? intervalDays
+    : null
 }
 
 export function buildIntervalTimes(
@@ -157,11 +176,15 @@ export function validateMedicationStep(
     }
 
     const unit = draft.dosageUnit.trim()
-    if (!unit) return 'Escribe la unidad indicada en la prescripción.'
-    if (unit.length > 50) return 'La unidad debe tener máximo 50 caracteres.'
+    if (!unit) return 'Selecciona o escribe la presentación indicada.'
+    if (unit.length > 50) return 'La presentación debe tener máximo 50 caracteres.'
   }
 
-  if (step === 2) {
+  if (step === 2 && getFrequencyIntervalDays(draft) === null) {
+    return 'Escribe cada cuántos días debes tomarlo.'
+  }
+
+  if (step === 3) {
     if (draft.schedule.kind === 'fixed') {
       if (draft.schedule.times.length === 0 || draft.schedule.times.some((time) => !timePattern.test(time))) {
         return 'Completa todas las horas indicadas.'
@@ -173,7 +196,7 @@ export function validateMedicationStep(
     } else {
       const intervalHours = Number(draft.schedule.intervalHours)
       if (!timePattern.test(draft.schedule.firstTime)) {
-        return 'Escribe la primera hora indicada.'
+        return 'Escribe la hora inicial indicada.'
       }
       if (!Number.isInteger(intervalHours) || intervalHours < 1 || intervalHours > 23) {
         return 'El intervalo debe ser un número entero entre 1 y 23 horas.'
@@ -181,19 +204,26 @@ export function validateMedicationStep(
     }
   }
 
-  if (step === 3 && !parseIsoDate(draft.startDate)) {
+  if (step === 4 && !parseIsoDate(draft.startDate)) {
     return 'Selecciona una fecha inicial válida.'
   }
 
-  if (step === 4 && draft.duration.kind !== 'indefinite' && !parseDurationAmount(draft.duration)) {
-    return 'Escribe una duración válida mayor que cero.'
+  if (step === 5) {
+    if (draft.duration.kind === 'end_date') {
+      if (!parseIsoDate(draft.startDate)) return 'Selecciona primero una fecha inicial válida.'
+      if (!parseIsoDate(draft.duration.endDate) || draft.duration.endDate < draft.startDate) {
+        return 'La fecha final debe ser igual o posterior a la fecha inicial.'
+      }
+    } else if (draft.duration.kind !== 'indefinite' && !parseDurationAmount(draft.duration)) {
+      return 'Escribe una duración válida mayor que cero.'
+    }
   }
 
   return null
 }
 
 export function validateMedicationDraft(draft: MedicationDraft): string | null {
-  for (let step = 0; step < 5; step += 1) {
+  for (let step = 0; step < 6; step += 1) {
     const error = validateMedicationStep(draft, step)
     if (error) return error
   }
@@ -210,11 +240,19 @@ export function normalizeMedicationDraft(
   const durationAmount = parseDurationAmount(draft.duration)
   const durationConfig: DurationConfig = draft.duration.kind === 'indefinite'
     ? { kind: 'indefinite', boundary: 'inclusive' }
-    : {
-        kind: draft.duration.kind,
-        amount: durationAmount ?? undefined,
-        boundary: 'inclusive',
-      }
+    : draft.duration.kind === 'end_date'
+      ? { kind: 'end_date', endDate: draft.duration.endDate, boundary: 'inclusive' }
+      : {
+          kind: draft.duration.kind,
+          amount: durationAmount ?? undefined,
+          boundary: 'inclusive',
+        }
+  const intervalDays = getFrequencyIntervalDays(draft)
+  if (!intervalDays) throw new MedicationValidationError('La frecuencia no es válida.')
+  const frequencyConfig = {
+    frequencyKind: draft.frequency.kind,
+    intervalDays,
+  }
 
   if (draft.schedule.kind === 'fixed') {
     return {
@@ -223,7 +261,7 @@ export function normalizeMedicationDraft(
       dosageUnit: draft.dosageUnit.trim(),
       scheduleType: 'daily',
       localTimes: [...draft.schedule.times].sort(),
-      recurrenceConfig: { mode: 'fixed' },
+      recurrenceConfig: { mode: 'fixed', ...frequencyConfig },
       startDate: draft.startDate,
       endDate: calculateEndDate(draft.startDate, draft.duration),
       durationConfig,
@@ -241,6 +279,7 @@ export function normalizeMedicationDraft(
       mode: 'interval',
       firstTime: draft.schedule.firstTime,
       intervalHours,
+      ...frequencyConfig,
     },
     startDate: draft.startDate,
     endDate: calculateEndDate(draft.startDate, draft.duration),
@@ -265,11 +304,18 @@ export function getMedicationViewStatus(
 
 export function medicationToDraft(medication: Medication): MedicationDraft {
   const duration = medication.durationConfig.kind === 'indefinite'
-    ? { kind: 'indefinite' as const, amount: '' }
-    : {
-        kind: medication.durationConfig.kind,
-        amount: String(medication.durationConfig.amount ?? ''),
-      }
+    ? { kind: 'indefinite' as const, amount: '', endDate: '' }
+    : medication.durationConfig.kind === 'end_date'
+      ? {
+          kind: 'end_date' as const,
+          amount: '',
+          endDate: medication.durationConfig.endDate ?? medication.endDate ?? '',
+        }
+      : {
+          kind: medication.durationConfig.kind,
+          amount: String(medication.durationConfig.amount ?? ''),
+          endDate: '',
+        }
 
   const schedule = medication.schedule?.type === 'interval'
     ? {
@@ -288,6 +334,10 @@ export function medicationToDraft(medication: Medication): MedicationDraft {
     name: medication.name,
     dosageAmount: String(medication.dosageAmount),
     dosageUnit: medication.dosageUnit,
+    frequency: {
+      kind: medication.schedule?.frequencyKind ?? 'daily',
+      intervalDays: String(medication.schedule?.intervalDays ?? 1),
+    },
     schedule,
     startDate: medication.startDate,
     duration,

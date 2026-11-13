@@ -1,7 +1,8 @@
 export type MedicationStatus = 'active' | 'paused' | 'completed'
 export type MedicationViewStatus = 'active' | 'suspended' | 'finished'
 export type ScheduleType = 'daily' | 'interval'
-export type DurationKind = 'days' | 'weeks' | 'months' | 'indefinite'
+export type DurationKind = 'days' | 'weeks' | 'months' | 'end_date' | 'indefinite'
+export type FrequencyKind = 'daily' | 'every_two_days' | 'weekly' | 'custom'
 
 export interface FixedScheduleDraft {
   kind: 'fixed'
@@ -18,15 +19,22 @@ export type MedicationScheduleDraft =
   | FixedScheduleDraft
   | IntervalScheduleDraft
 
+export interface MedicationFrequencyDraft {
+  kind: FrequencyKind
+  intervalDays: string
+}
+
 export interface TreatmentDurationDraft {
   kind: DurationKind
   amount: string
+  endDate: string
 }
 
 export interface MedicationDraft {
   name: string
   dosageAmount: string
   dosageUnit: string
+  frequency: MedicationFrequencyDraft
   schedule: MedicationScheduleDraft
   startDate: string
   duration: TreatmentDurationDraft
@@ -35,6 +43,7 @@ export interface MedicationDraft {
 export interface DurationConfig {
   kind: DurationKind
   amount?: number
+  endDate?: string
   boundary: 'inclusive'
 }
 
@@ -45,6 +54,8 @@ export interface MedicationSchedule {
   timezone: string
   intervalHours: number | null
   firstTime: string | null
+  frequencyKind?: FrequencyKind
+  intervalDays?: number
 }
 
 export interface Medication {
@@ -79,7 +90,8 @@ export const emptyMedicationDraft: MedicationDraft = {
   name: '',
   dosageAmount: '',
   dosageUnit: '',
+  frequency: { kind: 'daily', intervalDays: '1' },
   schedule: { kind: 'fixed', times: [''] },
   startDate: '',
-  duration: { kind: 'days', amount: '' },
+  duration: { kind: 'indefinite', amount: '', endDate: '' },
 }

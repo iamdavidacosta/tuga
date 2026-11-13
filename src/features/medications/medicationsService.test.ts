@@ -19,9 +19,10 @@ const draft: MedicationDraft = {
   name: 'Medicamento prescrito',
   dosageAmount: '1',
   dosageUnit: 'tableta',
+  frequency: { kind: 'every_two_days', intervalDays: '2' },
   schedule: { kind: 'fixed', times: ['08:00', '20:00'] },
   startDate: '2026-11-12',
-  duration: { kind: 'days', amount: '10' },
+  duration: { kind: 'days', amount: '10', endDate: '' },
 }
 
 describe('servicio de medicamentos', () => {
@@ -40,6 +41,10 @@ describe('servicio de medicamentos', () => {
         p_name: 'Medicamento prescrito',
         p_end_date: '2026-11-21',
         p_local_times: ['08:00', '20:00'],
+        p_recurrence_config: expect.objectContaining({
+          frequencyKind: 'every_two_days',
+          intervalDays: 2,
+        }),
       }),
     )
     expect(supabase.rpc.mock.calls[0]?.[1]).not.toHaveProperty('user_id')

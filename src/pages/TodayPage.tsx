@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { tugaAssets } from '../assets/tugaAssets'
@@ -13,7 +12,6 @@ import {
 } from '../features/doses/doseRules'
 import { useDoseContext } from '../features/doses/useDoseContext'
 import { useDoseOccurrences } from '../features/doses/useDoseOccurrences'
-import { postponeDoseReminder } from '../features/notifications/notificationService'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 function formatTodayTime(value: string): string {
@@ -31,8 +29,6 @@ export function TodayPage() {
   const doseContext = useDoseContext()
   const today = doseContext.context?.today ?? '1970-01-01'
   const { occurrences, isLoading, errorMessage } = useDoseOccurrences(today, today, Boolean(doseContext.context))
-  const [pendingMessage, setPendingMessage] = useState('')
-  const [isPostponing, setIsPostponing] = useState(false)
   const nextOccurrence = findNextPending(occurrences)
   const progress = calculateDailyProgress(occurrences)
   const otherOccurrences = occurrences.filter(({ id }) => id !== nextOccurrence?.id)
@@ -41,20 +37,6 @@ export function TodayPage() {
   const firstName = typeof metadataName === 'string' && metadataName.trim()
     ? metadataName.trim().split(/\s+/)[0]
     : ''
-
-  async function postponeNextReminder() {
-    if (!nextOccurrence || isPostponing) return
-    setIsPostponing(true)
-    setPendingMessage('')
-    try {
-      await postponeDoseReminder(nextOccurrence.id)
-      setPendingMessage('Te recordaremos nuevamente en 15 minutos. La toma continúa pendiente.')
-    } catch (error) {
-      setPendingMessage(error instanceof Error ? error.message : 'No pudimos programar el recordatorio. Inténtalo nuevamente.')
-    } finally {
-      setIsPostponing(false)
-    }
-  }
 
   if (!doseContext.context) {
     return (
@@ -114,14 +96,7 @@ export function TodayPage() {
             <Link className="tuga-button-primary full-width-action" to={`/tomas/${nextOccurrence.id}/confirmar`}>
               <TugaIcon name="taken" /> Tomé mi medicamento
             </Link>
-            <button
-              className="tuga-button-secondary full-width-action"
-              disabled={isPostponing}
-              onClick={() => void postponeNextReminder()}
-              type="button"
-            ><TugaIcon name="postpone" /> {isPostponing ? 'Programando…' : 'Recordar más tarde'}</button>
           </div>
-          {pendingMessage ? <p className="action-feedback" aria-live="polite">{pendingMessage}</p> : null}
         </section>
       ) : null}
 

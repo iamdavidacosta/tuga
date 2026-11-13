@@ -1,4 +1,4 @@
-*,
+﻿*,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -1683,8 +1683,7 @@ button {
   background: transparent;
 }
 
-.today-next-card .tuga-button-primary,
-.today-next-card .tuga-button-secondary {
+.today-next-card .tuga-button-primary {
   min-height: 70px;
   border-radius: 999px;
   font-size: clamp(1.2rem, 5.5vw, 1.6rem);
@@ -1695,22 +1694,9 @@ button {
   box-shadow: 0 10px 22px rgb(0 75 56 / 20%);
 }
 
-.today-next-card .tuga-button-secondary {
-  border-color: var(--tuga-primary-dark);
-  background: color-mix(in srgb, var(--tuga-cream) 9%, var(--tuga-surface));
-}
-
-.today-next-card .tuga-button-primary .tuga-icon,
-.today-next-card .tuga-button-secondary .tuga-icon {
+.today-next-card .tuga-button-primary .tuga-icon {
   width: 36px;
   height: 36px;
-}
-
-.today-next-card .action-feedback {
-  min-height: 0;
-  padding: 12px 16px 0;
-  background: transparent;
-  text-align: center;
 }
 
 .today-progress-card {
@@ -2137,7 +2123,7 @@ button {
   min-height: 62px;
 }
 
-/* Confirmación de toma con aspecto de diálogo, sin ocultar acciones clínicas. */
+/* ConfirmaciÃ³n de toma con aspecto de diÃ¡logo, sin ocultar acciones clÃ­nicas. */
 .confirmation-screen {
   width: min(100%, 680px);
   margin: 0 auto;
@@ -2312,8 +2298,7 @@ button {
     font-size: clamp(2.15rem, 11vw, 2.8rem);
   }
 
-  .today-next-card .tuga-button-primary,
-  .today-next-card .tuga-button-secondary {
+  .today-next-card .tuga-button-primary {
     min-height: 62px;
     padding-right: 14px;
     padding-left: 14px;
@@ -2431,5 +2416,550 @@ button {
 
   .confirmation-dialog {
     padding: 20px 16px;
+  }
+}
+
+/* Asistente de seis pasos para agregar y editar medicamentos. */
+.app-shell:has(.medication-wizard-page) {
+  background:
+    linear-gradient(rgb(238 248 218 / 82%), rgb(238 248 218 / 82%)),
+    url('/assets/tuga/patrones/paisaje-verde-capas.png') center bottom / cover no-repeat;
+}
+
+.app-shell:has(.medication-wizard-page) > .brand-header,
+.app-shell:has(.medication-wizard-page) > .bottom-navigation {
+  display: none;
+}
+
+.app-shell:has(.medication-wizard-page) > .app-content {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+.add-medication-screen {
+  min-height: 100dvh;
+}
+
+.add-medication-message {
+  width: min(calc(100% - 32px), 520px);
+  margin: 32px auto;
+}
+
+.medication-wizard-page {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  width: min(100%, 430px);
+  height: 100dvh;
+  min-height: 560px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 4px solid var(--tuga-primary-dark);
+  background:
+    linear-gradient(rgb(255 252 245 / 88%), rgb(255 252 245 / 88%)),
+    url('/assets/tuga/patrones/paisaje-verde-capas.png') center bottom / 100% auto no-repeat;
+  box-shadow: 0 18px 45px rgb(0 75 56 / 20%);
+  color: var(--tuga-text);
+}
+
+.medication-wizard-header {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  align-items: center;
+  gap: 8px;
+  padding: max(10px, env(safe-area-inset-top)) 12px 6px;
+}
+
+.wizard-header-button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  background: color-mix(in srgb, var(--tuga-surface) 92%, var(--tuga-green-light));
+  box-shadow: 0 4px 10px rgb(25 54 45 / 20%);
+  color: var(--tuga-primary-dark);
+  font: 900 2rem/1 var(--tuga-font-heading);
+  cursor: pointer;
+}
+
+.wizard-header-button:focus-visible {
+  outline: 4px solid var(--tuga-warning);
+  outline-offset: 2px;
+}
+
+.medication-wizard-logo {
+  width: 112px;
+  max-width: 100%;
+  height: 44px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.medication-wizard-intro {
+  display: grid;
+  grid-row: 2 / 4;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+}
+
+.medication-wizard-intro__content {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-height: 0;
+  padding: 4px 24px 12px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.medication-wizard-intro__mascot {
+  width: min(252px, 70vw);
+  max-height: 44dvh;
+  object-fit: contain;
+}
+
+.medication-wizard-intro h1 {
+  margin-top: -2px;
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(2rem, 9vw, 2.65rem)/0.94 var(--tuga-font-heading);
+}
+
+.medication-wizard-intro p {
+  margin-top: 12px;
+  color: var(--tuga-text-secondary);
+  font-size: clamp(1.05rem, 4.8vw, 1.25rem);
+  line-height: 1.25;
+}
+
+.wizard-progress {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  width: calc(100% - 76px);
+  margin: 2px auto 4px;
+  padding: 0;
+  list-style: none;
+}
+
+.wizard-progress::before {
+  position: absolute;
+  z-index: 0;
+  top: 15px;
+  right: 7%;
+  left: 7%;
+  height: 2px;
+  background: #b8c1ba;
+  content: '';
+}
+
+.wizard-progress li {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+}
+
+.wizard-progress li > span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  border: 2px solid #aeb8b0;
+  border-radius: 50%;
+  place-items: center;
+  background: #fffdf8;
+  color: #6b756e;
+  font: 800 0.9rem/1 var(--tuga-font-heading);
+}
+
+.wizard-progress li.is-current > span,
+.wizard-progress li.is-complete > span {
+  border-color: var(--tuga-primary);
+  background: var(--tuga-primary);
+  color: var(--tuga-surface);
+}
+
+.wizard-progress li.is-complete > span {
+  border-color: #50b817;
+  background: #50b817;
+}
+
+.medication-wizard-form {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+}
+
+.medication-wizard-scroll {
+  min-height: 0;
+  padding: 8px 24px 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.wizard-step-panel {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.wizard-step-title {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.wizard-step-title__icon {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+}
+
+.wizard-step-title__icon .tuga-icon {
+  width: 52px;
+  height: 52px;
+}
+
+.wizard-step-title p {
+  margin-bottom: 2px;
+  color: var(--tuga-text-secondary);
+  font: 800 0.95rem/1.15 var(--tuga-font-heading);
+}
+
+.wizard-step-title h1 {
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(1.5rem, 7vw, 1.85rem)/0.98 var(--tuga-font-heading);
+}
+
+.wizard-field {
+  display: grid;
+  gap: 7px;
+  color: var(--tuga-primary-dark);
+  font: 800 1rem/1.2 var(--tuga-font-heading);
+}
+
+.wizard-field input,
+.wizard-field select,
+.wizard-date-field input,
+.wizard-time-row input {
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 14px;
+  border: 2px solid #8ca094;
+  border-radius: 16px;
+  background: #fffdf8;
+  color: var(--tuga-text);
+  font-size: 1.15rem;
+}
+
+.wizard-field input:focus,
+.wizard-field select:focus,
+.wizard-date-field input:focus,
+.wizard-time-row input:focus {
+  border-color: var(--tuga-primary);
+  outline: 3px solid color-mix(in srgb, var(--tuga-green-light) 75%, transparent);
+  outline-offset: 1px;
+}
+
+.wizard-step-panel > .wizard-field:first-of-type input {
+  border-color: var(--tuga-primary);
+}
+
+.wizard-help {
+  padding: 11px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--tuga-green-light) 68%, var(--tuga-surface));
+  color: var(--tuga-text);
+  font-size: 0.95rem;
+  line-height: 1.28;
+  text-align: center;
+}
+
+.wizard-error {
+  padding: 10px 12px;
+  border: 2px solid #b9473b;
+  border-radius: 12px;
+  background: #fff1ef;
+  color: #842d25;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.dose-selector {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) 58px;
+  align-items: center;
+  gap: 12px;
+}
+
+.dose-selector button {
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  background: var(--tuga-green-light);
+  color: var(--tuga-primary-dark);
+  font: 900 2rem/1 var(--tuga-font-heading);
+  cursor: pointer;
+}
+
+.dose-selector input {
+  width: 100%;
+  height: 64px;
+  border: 2px solid #8ca094;
+  border-radius: 16px;
+  background: #fffdf8;
+  color: var(--tuga-primary-dark);
+  font: 900 2rem/1 var(--tuga-font-heading);
+  text-align: center;
+}
+
+.wizard-choice-list {
+  display: grid;
+  gap: 10px;
+}
+
+.wizard-choice-list label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 14px;
+  border: 2px solid #a8b3ac;
+  border-radius: 15px;
+  background: #fffdf8;
+  box-shadow: 0 3px 8px rgb(25 54 45 / 10%);
+  color: var(--tuga-text);
+  font: 800 1.05rem/1.15 var(--tuga-font-heading);
+  cursor: pointer;
+}
+
+.wizard-choice-list label:has(input:checked) {
+  border-color: #25a42f;
+  background: color-mix(in srgb, var(--tuga-green-light) 72%, var(--tuga-surface));
+}
+
+.wizard-choice-list input[type='radio'] {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  margin: 0;
+  accent-color: var(--tuga-primary);
+}
+
+.wizard-choice-list small {
+  display: block;
+  font: 600 0.88rem/1.15 var(--tuga-font-body);
+}
+
+.wizard-choice-list--two label {
+  align-items: flex-start;
+}
+
+.wizard-field--inline {
+  grid-template-columns: auto minmax(80px, 1fr) auto;
+  align-items: center;
+}
+
+.wizard-field--inline input {
+  text-align: center;
+}
+
+.wizard-time-list,
+.wizard-interval-fields,
+.wizard-duration-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.wizard-time-row {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 8px;
+  min-height: 58px;
+  padding: 4px 8px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--tuga-green-light) 65%, var(--tuga-surface));
+}
+
+.wizard-time-row > .tuga-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.wizard-time-row input {
+  min-height: 48px;
+  border: 0;
+  background: transparent;
+  font-weight: 800;
+}
+
+.wizard-time-row button {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--tuga-primary-dark);
+  font: 900 1.8rem/1 var(--tuga-font-heading);
+}
+
+.wizard-add-time {
+  min-height: 56px;
+  border: 2px solid var(--tuga-primary);
+  border-radius: 18px;
+  background: #f8fff0;
+  color: var(--tuga-primary-dark);
+  font: 800 1rem/1.1 var(--tuga-font-heading);
+}
+
+.wizard-add-time span {
+  margin-right: 7px;
+  font-size: 1.6rem;
+  vertical-align: -2px;
+}
+
+.wizard-date-field {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding-left: 12px;
+  border: 2px solid #8ca094;
+  border-radius: 16px;
+  background: #fffdf8;
+  box-shadow: 0 3px 8px rgb(25 54 45 / 12%);
+}
+
+.wizard-date-field .tuga-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.wizard-date-field input {
+  border: 0;
+  background: transparent;
+}
+
+.wizard-summary {
+  padding: 14px;
+  border: 2px solid var(--tuga-green-light);
+  border-radius: 18px;
+  background: rgb(255 253 248 / 92%);
+}
+
+.wizard-summary h2 {
+  margin-bottom: 10px;
+  color: var(--tuga-primary-dark);
+  font: 900 1.15rem/1.2 var(--tuga-font-heading);
+}
+
+.wizard-summary dl {
+  display: grid;
+  gap: 7px;
+}
+
+.wizard-summary dl > div {
+  display: grid;
+  grid-template-columns: minmax(92px, 0.7fr) minmax(0, 1.3fr);
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid color-mix(in srgb, var(--tuga-green-light) 70%, transparent);
+  font-size: 0.88rem;
+}
+
+.wizard-summary dt {
+  color: var(--tuga-text-secondary);
+  font-weight: 700;
+}
+
+.wizard-summary dd {
+  color: var(--tuga-primary-dark);
+  font-weight: 800;
+}
+
+.medication-wizard-footer {
+  padding: 10px 20px max(14px, env(safe-area-inset-bottom));
+  background: linear-gradient(transparent, rgb(255 252 245 / 96%) 22%);
+}
+
+.wizard-main-action {
+  width: 100%;
+  min-height: 58px;
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgb(0 75 56 / 24%);
+  font-size: 1.22rem;
+}
+
+.wizard-main-action span {
+  margin-left: 8px;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 370px) {
+  .medication-wizard-scroll {
+    padding-inline: 18px;
+  }
+
+  .medication-wizard-header {
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+    padding-inline: 8px;
+  }
+
+  .wizard-progress {
+    width: calc(100% - 54px);
+  }
+
+  .wizard-progress li > span {
+    width: 30px;
+    height: 30px;
+  }
+
+  .wizard-step-title {
+    grid-template-columns: 50px minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .wizard-step-title__icon,
+  .wizard-step-title__icon .tuga-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .wizard-step-title h1 {
+    font-size: 1.45rem;
+  }
+}
+
+@media (min-width: 431px) {
+  .medication-wizard-page {
+    border-radius: 34px;
+  }
+}
+
+@media (max-height: 700px) {
+  .medication-wizard-intro__mascot {
+    width: min(190px, 56vw);
+    max-height: 35dvh;
+  }
+
+  .medication-wizard-intro h1 {
+    font-size: 1.85rem;
+  }
+
+  .medication-wizard-scroll {
+    padding-top: 2px;
   }
 }

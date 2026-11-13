@@ -26,9 +26,14 @@ function parseDurationConfig(value: Json, endDate: string | null): DurationConfi
   if (isRecord(value)) {
     const kind = value.kind
     const amount = value.amount
+    const configuredEndDate = value.endDate
 
     if (kind === 'indefinite') {
       return { kind, boundary: 'inclusive' }
+    }
+
+    if (kind === 'end_date' && typeof configuredEndDate === 'string') {
+      return { kind, endDate: configuredEndDate, boundary: 'inclusive' }
     }
 
     if (
@@ -62,6 +67,8 @@ function mapSchedule(row: {
     : {}
   const intervalHours = recurrence.intervalHours
   const firstTime = recurrence.firstTime
+  const frequencyKind = recurrence.frequencyKind
+  const intervalDays = recurrence.intervalDays
 
   return {
     id: row.id,
@@ -70,6 +77,12 @@ function mapSchedule(row: {
     timezone: row.timezone,
     intervalHours: typeof intervalHours === 'number' ? intervalHours : null,
     firstTime: typeof firstTime === 'string' ? normalizeTime(firstTime) : null,
+    frequencyKind: frequencyKind === 'every_two_days' || frequencyKind === 'weekly' || frequencyKind === 'custom'
+      ? frequencyKind
+      : 'daily',
+    intervalDays: typeof intervalDays === 'number' && Number.isInteger(intervalDays) && intervalDays > 0
+      ? intervalDays
+      : 1,
   }
 }
 

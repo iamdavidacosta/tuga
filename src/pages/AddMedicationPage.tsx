@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { PageHeader } from '../components/PageHeader'
 import { medicationToDraft } from '../features/medications/medicationRules'
 import { MedicationWizard } from '../features/medications/MedicationWizard'
 import {
@@ -66,29 +65,30 @@ export function AddMedicationPage() {
     })
   }
 
-  return (
-    <div className="screen-stack">
-      <PageHeader
-        backLabel="Volver a medicamentos"
-        backTo={medicationId ? `/medicamentos/${medicationId}` : '/medicamentos'}
-        title={isEditing ? 'Editar medicamento' : 'Agregar medicamento'}
-      />
+  const closeTarget = medicationId ? `/medicamentos/${medicationId}` : '/medicamentos'
 
+  return (
+    <div className="add-medication-screen">
       {loadingError ? (
-        <section className="information-panel" role="alert">
+        <section className="information-panel add-medication-message" role="alert">
           <h2 className="tuga-heading">No pudimos abrir el formulario</h2>
           <p>{loadingError}</p>
+          <button className="tuga-button-primary" onClick={() => void navigate(closeTarget)} type="button">
+            Volver a mis medicamentos
+          </button>
         </section>
       ) : null}
 
       {!initialDraft && !loadingError ? (
-        <p className="loading-message" role="status">Cargando medicamento…</p>
+        <p className="loading-message add-medication-message" role="status">Cargando medicamento…</p>
       ) : null}
 
       {initialDraft ? (
         <MedicationWizard
           initialDraft={initialDraft}
+          onClose={() => void navigate(closeTarget)}
           onSave={handleSave}
+          startWithIntro={!isEditing}
           submitLabel={isEditing ? 'Guardar cambios' : 'Guardar medicamento'}
         />
       ) : null}

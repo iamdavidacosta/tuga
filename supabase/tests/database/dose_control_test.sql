@@ -45,6 +45,22 @@ select results_eq(
 );
 
 select public.create_medication_with_schedule(
+  'aaaaaaaa-0000-0000-0000-000000000006', 'Cada dos días', 1, 'tableta',
+  '2026-11-12', '2026-11-16', '{"kind":"days","amount":5,"boundary":"inclusive"}',
+  'daily', array['09:00'::time], 'America/Bogota',
+  '{"mode":"fixed","frequencyKind":"every_two_days","intervalDays":2}'
+);
+select public.ensure_dose_occurrences('2026-11-12', '2026-11-16');
+select results_eq(
+  $$select (scheduled_at at time zone 'America/Bogota')::date
+    from public.dose_occurrences
+    where medication_id = 'aaaaaaaa-0000-0000-0000-000000000006'
+    order by scheduled_at$$,
+  array['2026-11-12'::date, '2026-11-14'::date, '2026-11-16'::date],
+  'a day interval is anchored to the inclusive treatment start date'
+);
+
+select public.create_medication_with_schedule(
   'aaaaaaaa-0000-0000-0000-000000000003', 'Dos meses', 2, 'ml',
   '2026-12-01', '2027-01-31', '{"kind":"months","amount":2,"boundary":"inclusive"}',
   'daily', array['10:00'::time], 'America/Bogota', '{"mode":"fixed"}'

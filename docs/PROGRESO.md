@@ -43,7 +43,7 @@ Esperar la solicitud explícita de la etapa 8. No se adelantó su implementació
 
 ### Vista Hoy refinada
 
-- Reproducida la composición del mockup oficial: bienvenida orgánica, tarjeta protagonista, hora en formato de 12 horas, estado y botones “Tomé mi medicamento” y “Recordar más tarde”.
+- Reproducida la composición del mockup oficial: bienvenida orgánica, tarjeta protagonista, hora en formato de 12 horas, estado y acción “Tomé mi medicamento”.
 - Incorporados estados para día completado, día sin pendientes y ausencia de tomas; la lista sigue siendo adaptable para nombres largos.
 - Captura de referencia disponible en `docs/capturas/hoy-390x844.png`.
 - Validación focalizada: Vitest, Playwright en 360/390/430 px, tablet y escritorio, ESLint, TypeScript estricto y build Vite.

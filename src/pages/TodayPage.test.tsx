@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -54,7 +53,6 @@ const occurrences: DoseOccurrence[] = [
 ]
 
 const doseState = vi.hoisted(() => ({ occurrences: [] as unknown[] }))
-const notificationService = vi.hoisted(() => ({ postponeDoseReminder: vi.fn() }))
 
 vi.mock('../features/auth/authContext', () => ({
   useAuth: () => ({ user: { user_metadata: { full_name: 'Marta Gómez' } } }),
@@ -77,20 +75,14 @@ vi.mock('../features/doses/useDoseOccurrences', () => ({
   }),
 }))
 
-vi.mock('../features/notifications/notificationService', () => notificationService)
-
 import { TodayPage } from './TodayPage'
 
 describe('vista Hoy', () => {
   beforeEach(() => {
     doseState.occurrences = occurrences
-    notificationService.postponeDoseReminder.mockReset()
-    notificationService.postponeDoseReminder.mockResolvedValue('2099-01-18T13:15:00Z')
   })
 
-  it('muestra el saludo, la próxima toma, el progreso y las demás tomas', async () => {
-    const user = userEvent.setup()
-
+  it('muestra el saludo, la próxima toma, el progreso y las demás tomas', () => {
     render(<MemoryRouter><TodayPage /></MemoryRouter>)
 
     expect(screen.getByRole('heading', { name: 'Hola, Marta' })).toBeVisible()
@@ -103,10 +95,7 @@ describe('vista Hoy', () => {
     expect(screen.getByText(/2:00 PM/)).toBeVisible()
     expect(screen.getByText('Tomado')).toBeVisible()
     expect(screen.getByText('Omitida')).toBeVisible()
-
-    await user.click(screen.getByRole('button', { name: 'Recordar más tarde' }))
-    expect(notificationService.postponeDoseReminder).toHaveBeenCalledWith('next-dose')
-    expect(screen.getByText('Te recordaremos nuevamente en 15 minutos. La toma continúa pendiente.')).toBeVisible()
+    expect(screen.queryByRole('button', { name: 'Recordar más tarde' })).not.toBeInTheDocument()
   })
 
   it('muestra una celebración sin acciones cuando todas las tomas están confirmadas', () => {
