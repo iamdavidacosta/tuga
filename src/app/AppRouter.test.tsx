@@ -60,7 +60,7 @@ describe('rutas y autenticación', () => {
     renderRoute('/', authValue)
 
     await user.click(
-      screen.getByRole('button', { name: 'Continuar con Google' }),
+      screen.getByRole('button', { name: 'Entrar con Google' }),
     )
 
     expect(authValue.signIn).toHaveBeenCalledOnce()

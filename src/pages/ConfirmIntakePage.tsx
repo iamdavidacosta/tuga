@@ -97,8 +97,8 @@ export function ConfirmIntakePage() {
   }
 
   return (
-    <div className="screen-stack">
-      <PageHeader backLabel="Volver a Hoy" backTo="/hoy" title="Control de la toma" />
+    <div className="screen-stack confirmation-screen">
+      <PageHeader backLabel="Volver a Hoy" backTo="/hoy" title="Confirmar toma" />
       {successMessage ? (
         <section className="confirmation-panel confirmation-panel--success" role="status">
           <img className="confirmation-mascot" src={tugaAssets.mascots.heart} alt="TUGA abraza un corazón" />
@@ -107,20 +107,30 @@ export function ConfirmIntakePage() {
       ) : null}
       {errorMessage ? <p className="auth-error" role="alert">{errorMessage}</p> : null}
 
-      <section className="intake-card confirmation-card" aria-labelledby="confirm-intake-title">
-        <StatusBadge status={occurrence.status} />
-        <span className="icon-tile icon-tile--large"><TugaIcon name="medication" /></span>
-        <h2 className="tuga-heading" id="confirm-intake-title">{occurrence.medicationName}</h2>
-        <p>{formatDoseAmount(occurrence.dosageAmount)} {occurrence.dosageUnit}</p>
+      <section className="intake-card confirmation-card confirmation-dialog" aria-labelledby="confirm-intake-title">
+        <img className="confirmation-dialog__mascot" src={tugaAssets.mascots.heart} alt="TUGA te acompaña a confirmar tu toma" />
+        <div className="confirmation-dialog__question">
+          <h2 className="tuga-heading" id="confirm-intake-title">¿Ya te tomaste tu medicamento?</h2>
+          <p>Confirma solamente cuando ya hayas tomado esta dosis.</p>
+        </div>
+        <div className="confirmation-medication">
+          <span className="icon-tile icon-tile--large"><TugaIcon name="medication" /></span>
+          <div>
+            <h3 className="tuga-heading">{occurrence.medicationName}</h3>
+            <p>{formatDoseAmount(occurrence.dosageAmount)} {occurrence.dosageUnit}</p>
+          </div>
+          <StatusBadge status={occurrence.status} />
+        </div>
         <p className="supporting-text">{formatLongDate(occurrence.localDate)}</p>
         <p className="intake-time"><TugaIcon name="clock" /> <span>Hora programada <strong>{occurrence.localTime}</strong></span></p>
 
         {occurrence.status === 'pending' ? (
           <div className="stacked-actions full-width-action">
             <button className="tuga-button-primary full-width-action" disabled={isBusy} onClick={() => void runAction('confirm')} type="button">
+              {!isBusy ? <TugaIcon name="taken" /> : null}
               {isBusy ? 'Guardando…' : 'Sí, ya lo tomé'}
             </button>
-            <Link className="tuga-button-secondary full-width-action" to="/hoy">Todavía no</Link>
+            <Link className="tuga-button-secondary full-width-action" to="/hoy"><TugaIcon name="clock" /> Todavía no</Link>
             <button className="tuga-button-secondary full-width-action" disabled={isBusy} onClick={() => void postponeReminder()} type="button">
               <TugaIcon name="postpone" /> Recordarme en 15 minutos
             </button>

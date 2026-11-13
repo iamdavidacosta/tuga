@@ -4,7 +4,7 @@ import { TugaIcon } from './TugaIcon'
 
 const statusLabels: Record<IntakeStatus, string> = {
   pendiente: 'Pendiente',
-  realizada: 'Realizada',
+  realizada: 'Tomado',
   omitida: 'Omitida',
 }
 
@@ -25,6 +25,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
     <span className={`status-badge status-badge--${displayStatus}`}>
       {displayStatus === 'pendiente' ? <TugaIcon name="pending" /> : null}
       {displayStatus === 'realizada' ? <TugaIcon name="taken" /> : null}
+      {displayStatus === 'omitida' ? <span className="status-badge__mark" aria-hidden="true">×</span> : null}
       <span>{statusLabels[displayStatus]}</span>
     </span>
   )

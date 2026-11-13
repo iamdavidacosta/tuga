@@ -27,3 +27,10 @@ El healthcheck no garantiza evitar pausas o suspensiones de Supabase Free.
 ## Próximo módulo
 
 Esperar la solicitud explícita de la etapa 8. No se adelantó su implementación.
+
+## Ajuste visual solicitado — 2026-11-13
+
+- Renovadas las vistas de bienvenida, Hoy, calendario, asistente de medicamentos y confirmación de toma, conservando su comportamiento y los recursos oficiales.
+- El encabezado usa el logotipo oficial de TUGA y los enlaces de regreso ahora se presentan como botones circulares accesibles.
+- Validación: 11 pruebas Vitest focalizadas, 9 pruebas Playwright de bienvenida y anchos móviles, ESLint, TypeScript estricto y build Vite aprobados.
+- No se ejecutaron pruebas E2E autenticadas, la suite Playwright completa ni build Docker. Verificar visualmente las pantallas privadas con una sesión real antes de publicar.

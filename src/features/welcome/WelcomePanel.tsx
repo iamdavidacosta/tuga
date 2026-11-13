@@ -7,8 +7,15 @@ export function WelcomePanel() {
   return (
     <main className="welcome-screen" id="contenido-principal">
       <section className="welcome-panel" aria-labelledby="welcome-title">
+        <span className="welcome-logo" aria-hidden="false">
+          <img src={tugaAssets.logos.text} alt="TUGA" />
+        </span>
+        <img
+          className="welcome-mascot"
+          src={tugaAssets.mascots.heart}
+          alt="TUGA abraza un corazón"
+        />
         <div className="welcome-copy">
-          <p className="welcome-eyebrow">Tu salud, a tiempo</p>
           <h1 id="welcome-title" className="tuga-heading">
             Bienvenido a TUGA
           </h1>
@@ -16,15 +23,8 @@ export function WelcomePanel() {
             Una forma clara y amable de recordar tus medicamentos.
           </p>
         </div>
-        <img
-          className="welcome-mascot"
-          src={tugaAssets.mascots.heart}
-          alt="TUGA, la tortuga, abraza un corazón"
-        />
         <div className="login-panel" aria-labelledby="login-title">
-          <h2 className="tuga-heading" id="login-title">
-            Iniciar sesión
-          </h2>
+          <h2 className="visually-hidden" id="login-title">Iniciar sesión</h2>
           <button
             aria-describedby="login-description"
             className="tuga-button-primary login-button"
@@ -32,7 +32,7 @@ export function WelcomePanel() {
             onClick={() => void signIn()}
             type="button"
           >
-            {isBusy ? 'Abriendo Google…' : 'Continuar con Google'}
+            {isBusy ? 'Abriendo Google…' : 'Entrar con Google'}
           </button>
           <p className="supporting-text" id="login-description">
             Usaremos tu cuenta de Google para identificarte de forma segura.

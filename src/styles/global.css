@@ -1277,3 +1277,634 @@ button {
     scroll-behavior: auto;
   }
 }
+
+/* Refinamiento visual de las pantallas principales con el sistema oficial TUGA. */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.brand-header {
+  padding: 6px 16px;
+  box-shadow: 0 4px 18px rgb(0 75 56 / 10%);
+}
+
+.brand-wordmark {
+  position: relative;
+  width: 170px;
+  height: 50px;
+  min-height: 50px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.brand-wordmark img {
+  position: absolute;
+  top: -29px;
+  left: 50%;
+  width: 190px;
+  max-width: none;
+  transform: translateX(-50%);
+}
+
+.page-header {
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.page-header__copy {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.page-header > .page-header__copy:first-child {
+  grid-column: 1 / -1;
+}
+
+.page-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(1.75rem, 7vw, 2.35rem);
+}
+
+.page-header h1 .tuga-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.back-link {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  min-height: 56px;
+  padding: 0;
+  border: 2px solid var(--tuga-green-light);
+  border-radius: 50%;
+  place-items: center;
+  background: var(--tuga-surface);
+  box-shadow: 0 5px 14px rgb(0 75 56 / 15%);
+  text-decoration: none;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  background: var(--tuga-green-light);
+}
+
+.back-link span:not(.visually-hidden) {
+  font-size: 2rem;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.bottom-navigation {
+  padding-top: 10px;
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -6px 24px rgb(0 75 56 / 12%);
+}
+
+.bottom-navigation__item {
+  border-radius: 18px;
+}
+
+.status-badge__mark {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  place-items: center;
+  background: var(--tuga-surface);
+  color: var(--tuga-primary-dark);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+/* Bienvenida e inicio con Google. */
+.welcome-screen {
+  padding: 18px 14px;
+  background:
+    linear-gradient(180deg, var(--tuga-background) 0 72%, var(--tuga-green-light) 100%);
+}
+
+.welcome-panel {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  width: min(100%, 600px);
+  padding: clamp(22px, 6vw, 42px);
+  overflow: hidden;
+  border-color: var(--tuga-primary);
+  border-radius: 32px;
+  box-shadow: 0 18px 45px rgb(0 75 56 / 16%);
+  text-align: center;
+}
+
+.welcome-logo {
+  position: relative;
+  display: block;
+  width: 230px;
+  height: 74px;
+  overflow: hidden;
+}
+
+.welcome-logo img {
+  position: absolute;
+  top: -42px;
+  left: 50%;
+  width: 270px;
+  max-width: none;
+  transform: translateX(-50%);
+}
+
+.welcome-mascot {
+  grid-column: 1;
+  grid-row: auto;
+  width: min(260px, 76vw);
+  max-height: 270px;
+}
+
+.welcome-copy,
+.login-panel,
+.welcome-disclaimer {
+  grid-column: 1;
+  justify-self: stretch;
+}
+
+.welcome-panel h1 {
+  font-size: clamp(2rem, 9vw, 3rem);
+}
+
+.welcome-message {
+  margin-right: auto;
+  margin-left: auto;
+  color: var(--tuga-text-secondary);
+  font-size: 1.2rem;
+}
+
+.login-panel {
+  width: 100%;
+  padding: 8px 0 0;
+  background: transparent;
+}
+
+.login-panel .login-button {
+  min-height: 68px;
+  border: 3px solid var(--tuga-primary);
+  background: var(--tuga-surface);
+  color: var(--tuga-primary-dark);
+  box-shadow: 0 8px 18px rgb(0 75 56 / 14%);
+  font-size: clamp(1.25rem, 6vw, 1.55rem);
+}
+
+.login-panel .login-button:hover,
+.login-panel .login-button:focus-visible {
+  background: var(--tuga-green-light);
+}
+
+/* Hoy. */
+.today-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(92px, 128px);
+  align-items: center;
+  gap: 12px;
+  min-height: 150px;
+  padding: clamp(18px, 5vw, 28px);
+  overflow: hidden;
+  border: 2px solid var(--tuga-green-light);
+  border-radius: 26px;
+  background: linear-gradient(135deg, var(--tuga-surface), var(--tuga-green-light));
+  box-shadow: 0 10px 28px rgb(0 75 56 / 10%);
+}
+
+.today-hero h1 {
+  margin: 5px 0 4px;
+  font-size: clamp(2rem, 9vw, 3rem);
+}
+
+.today-hero img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+}
+
+.today-next-card {
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 3px solid var(--tuga-primary);
+  border-radius: 28px;
+  box-shadow: 0 14px 34px rgb(0 75 56 / 14%);
+}
+
+.today-next-card__heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 20px;
+  background: var(--tuga-primary-dark);
+  color: var(--tuga-surface);
+  font-family: var(--tuga-font-heading);
+  font-size: clamp(1.35rem, 6vw, 1.75rem);
+  font-weight: 800;
+}
+
+.today-next-card__heading .tuga-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.today-next-card__body {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: 22px 20px;
+  background: var(--tuga-surface);
+  text-align: center;
+}
+
+.medication-summary--featured {
+  width: 100%;
+  justify-content: center;
+}
+
+.medication-summary--featured h2 {
+  font-size: clamp(1.8rem, 8vw, 2.55rem);
+}
+
+.dose-pill {
+  width: fit-content;
+  margin: 7px auto 0;
+  padding: 5px 18px;
+  border-radius: 999px;
+  background: var(--tuga-green-light);
+  font-family: var(--tuga-font-heading);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.intake-time--featured {
+  width: min(100%, 420px);
+  justify-content: center;
+  background: var(--tuga-background);
+}
+
+.today-next-card > .stacked-actions {
+  padding: 0 20px 20px;
+  background: var(--tuga-surface);
+}
+
+.today-next-card .tuga-button-primary,
+.today-next-card .tuga-button-secondary {
+  min-height: 64px;
+}
+
+.today-next-card .action-feedback {
+  padding: 0 20px 12px;
+  background: var(--tuga-surface);
+  text-align: center;
+}
+
+/* Calendario. */
+.calendar-card {
+  padding: clamp(16px, 4vw, 28px);
+  border-color: rgb(0 75 56 / 24%);
+  border-radius: 28px;
+  box-shadow: 0 10px 26px rgb(0 75 56 / 10%);
+}
+
+.calendar-navigation {
+  padding: 7px;
+  border-radius: 999px;
+  background: var(--tuga-green-light);
+}
+
+.calendar-navigation__button {
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 68%);
+  box-shadow: none;
+}
+
+.calendar-navigation__button:hover,
+.calendar-navigation__button:focus-visible {
+  background: var(--tuga-surface);
+}
+
+.month-weekdays,
+.month-grid {
+  gap: 6px;
+}
+
+.month-weekdays {
+  color: var(--tuga-primary-dark);
+  font-size: clamp(0.72rem, 3vw, 1rem);
+}
+
+.month-day {
+  min-height: 64px;
+  border-color: rgb(25 54 45 / 8%);
+  background: var(--tuga-surface);
+}
+
+.month-day .tuga-icon {
+  width: 23px;
+  height: 23px;
+}
+
+.month-day--taken {
+  background: var(--tuga-green-light);
+}
+
+.month-day--pending {
+  background: var(--tuga-cream);
+}
+
+.month-day--skipped {
+  background: color-mix(in srgb, var(--tuga-coral) 48%, var(--tuga-surface));
+}
+
+.month-day__mark {
+  display: grid;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  place-items: center;
+  background: var(--tuga-coral);
+  color: var(--tuga-text);
+  font-size: 1.25rem !important;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.month-day[aria-pressed='true'] {
+  border-width: 3px;
+  border-color: var(--tuga-primary-dark);
+  background: var(--tuga-primary);
+  color: var(--tuga-surface);
+  box-shadow: 0 5px 12px rgb(0 75 56 / 18%);
+}
+
+.calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 22px;
+  background: var(--tuga-surface);
+  box-shadow: 0 7px 20px rgb(0 75 56 / 8%);
+}
+
+.calendar-intake-row--taken {
+  background: var(--tuga-green-light);
+}
+
+.calendar-intake-row--pending {
+  background: color-mix(in srgb, var(--tuga-cream) 70%, var(--tuga-surface));
+}
+
+.calendar-intake-row--skipped {
+  background: color-mix(in srgb, var(--tuga-coral) 35%, var(--tuga-surface));
+}
+
+/* Asistente de medicamentos. */
+.step-progress {
+  position: relative;
+  overflow: visible;
+}
+
+.step-progress::before {
+  position: absolute;
+  z-index: 0;
+  top: 23px;
+  right: 7%;
+  left: 7%;
+  height: 3px;
+  background: var(--tuga-green-light);
+  content: '';
+}
+
+.step-progress li {
+  position: relative;
+  z-index: 1;
+  flex-basis: 54px;
+}
+
+.step-progress li > span {
+  width: 38px;
+  height: 38px;
+  background: var(--tuga-surface);
+}
+
+.wizard-card {
+  border-color: var(--tuga-primary);
+  border-radius: 28px;
+  box-shadow: 0 12px 30px rgb(0 75 56 / 12%);
+}
+
+.wizard-card .card-kicker {
+  text-align: center;
+}
+
+.wizard-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.wizard-legend__icon {
+  display: grid;
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  place-items: center;
+  background: var(--tuga-green-light);
+}
+
+.wizard-legend__icon .tuga-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.wizard-card .form-field input,
+.wizard-card .form-field select {
+  min-height: 62px;
+  border-color: var(--tuga-primary);
+  font-size: 1.2rem;
+}
+
+.wizard-card .schedule-kind label:has(input:checked) {
+  border-color: var(--tuga-primary);
+  background: var(--tuga-green-light);
+}
+
+.wizard-actions .tuga-button-primary,
+.wizard-actions .tuga-button-secondary {
+  min-height: 62px;
+}
+
+/* Confirmación de toma con aspecto de diálogo, sin ocultar acciones clínicas. */
+.confirmation-screen {
+  width: min(100%, 680px);
+  margin: 0 auto;
+}
+
+.confirmation-dialog {
+  gap: 18px;
+  overflow: hidden;
+  border: 3px solid var(--tuga-primary);
+  border-radius: 30px;
+  box-shadow: 0 18px 46px rgb(0 75 56 / 18%);
+}
+
+.confirmation-dialog__mascot {
+  width: min(230px, 68vw);
+  max-height: 210px;
+  object-fit: contain;
+}
+
+.confirmation-dialog__question {
+  display: grid;
+  gap: 8px;
+}
+
+.confirmation-dialog__question h2 {
+  font-size: clamp(1.8rem, 8vw, 2.45rem);
+}
+
+.confirmation-dialog__question p {
+  color: var(--tuga-text-secondary);
+}
+
+.confirmation-medication {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--tuga-green-light);
+  text-align: left;
+}
+
+.confirmation-medication h3 {
+  font-size: clamp(1.45rem, 7vw, 2rem);
+}
+
+.confirmation-medication .status-badge {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+.confirmation-dialog .intake-time {
+  width: 100%;
+  justify-content: center;
+}
+
+.confirmation-dialog .stacked-actions .tuga-button-primary,
+.confirmation-dialog .stacked-actions .tuga-button-secondary {
+  min-height: 64px;
+}
+
+@media (max-width: 420px) {
+  .page-header {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .back-link {
+    width: 52px;
+    height: 52px;
+    min-height: 52px;
+  }
+
+  .page-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .page-header h1 .tuga-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .welcome-panel {
+    padding: 20px 16px 24px;
+  }
+
+  .welcome-logo {
+    width: 200px;
+    height: 64px;
+  }
+
+  .welcome-logo img {
+    top: -36px;
+    width: 235px;
+  }
+
+  .today-hero {
+    grid-template-columns: minmax(0, 1fr) 92px;
+  }
+
+  .today-next-card {
+    padding: 0;
+  }
+
+  .medication-summary--featured {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .medication-summary--featured .icon-tile--large {
+    width: 72px;
+    height: 72px;
+  }
+
+  .month-weekdays,
+  .month-grid {
+    gap: 3px;
+  }
+
+  .month-day {
+    min-height: 56px;
+    padding: 3px 0;
+    border-radius: 10px;
+  }
+
+  .month-day strong {
+    font-size: 0.9rem;
+  }
+
+  .month-day .tuga-icon,
+  .month-day__mark {
+    width: 20px;
+    height: 20px;
+  }
+
+  .step-progress li {
+    flex-basis: 44px;
+  }
+
+  .step-progress small {
+    font-size: 0.65rem;
+  }
+
+  .wizard-legend {
+    align-items: flex-start;
+  }
+
+  .confirmation-dialog {
+    padding: 20px 16px;
+  }
+}

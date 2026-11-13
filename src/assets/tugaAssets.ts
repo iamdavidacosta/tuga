@@ -2,6 +2,9 @@ const tugaAssetRoot = '/assets/tuga'
 
 export const tugaAssets = {
   appIcon: `${tugaAssetRoot}/app-icon.png`,
+  logos: {
+    text: `${tugaAssetRoot}/logos/tuga-texto-verde.png`,
+  },
   mascots: {
     calendar: `${tugaAssetRoot}/mascotas/tuga-calendario.png`,
     heart: `${tugaAssetRoot}/mascotas/tuga-corazon.png`,

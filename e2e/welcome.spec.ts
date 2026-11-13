@@ -7,7 +7,7 @@ test('la bienvenida ofrece el inicio de sesión con Google', async ({ page }) =>
     page.getByRole('heading', { name: 'Bienvenido a TUGA' }),
   ).toBeVisible()
   await expect(
-    page.getByRole('button', { name: 'Continuar con Google' }),
+    page.getByRole('button', { name: 'Entrar con Google' }),
   ).toBeVisible()
   await expect(
     page.getByText('Usaremos tu cuenta de Google para identificarte de forma segura.'),
@@ -62,7 +62,7 @@ for (const width of [320, 360, 390, 430]) {
     await page.goto('/')
 
     await expect(
-      page.getByRole('button', { name: 'Continuar con Google' }),
+      page.getByRole('button', { name: 'Entrar con Google' }),
     ).toBeVisible()
 
     const hasHorizontalOverflow = await page.evaluate(
@@ -83,7 +83,7 @@ test('admite texto ampliado al 200 % sin desplazamiento horizontal', async ({
   })
 
   await expect(
-    page.getByRole('button', { name: 'Continuar con Google' }),
+    page.getByRole('button', { name: 'Entrar con Google' }),
   ).toBeVisible()
 
   const hasHorizontalOverflow = await page.evaluate(

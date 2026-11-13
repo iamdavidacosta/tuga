@@ -1,5 +1,7 @@
 import { type FormEvent, useRef, useState } from 'react'
 
+import { TugaIcon } from '../../components/TugaIcon'
+import type { TugaIconName } from '../../assets/tugaAssets'
 import {
   calculateEndDate,
   normalizeMedicationDraft,
@@ -16,12 +18,35 @@ const stepNames = [
   'Revisar',
 ] as const
 
+const stepIcons = [
+  'medication',
+  'medication',
+  'clock',
+  'calendar',
+  'calendar',
+  'taken',
+] as const satisfies readonly TugaIconName[]
+
 type WizardStep = 0 | 1 | 2 | 3 | 4 | 5
 
 interface MedicationWizardProps {
   initialDraft: MedicationDraft
   onSave: (draft: MedicationDraft) => Promise<void>
   submitLabel: string
+}
+
+interface WizardLegendProps {
+  icon: TugaIconName
+  children: string
+}
+
+function WizardLegend({ icon, children }: WizardLegendProps) {
+  return (
+    <legend className="wizard-legend tuga-heading">
+      <span className="wizard-legend__icon" aria-hidden="true"><TugaIcon name={icon} /></span>
+      <span>{children}</span>
+    </legend>
+  )
 }
 
 function cloneDraft(draft: MedicationDraft): MedicationDraft {
@@ -139,11 +164,12 @@ export function MedicationWizard({
       <ol className="step-progress" aria-label="Progreso del medicamento">
         {stepNames.map((stepName, index) => (
           <li
+            aria-label={`${stepName}: ${index < step ? 'completado' : index === step ? 'paso actual' : 'pendiente'}`}
             aria-current={index === step ? 'step' : undefined}
             className={index <= step ? 'is-current-or-complete' : ''}
             key={stepName}
           >
-            <span>{index + 1}</span>
+            <span aria-hidden="true">{index < step ? '✓' : index + 1}</span>
             <small>{stepName}</small>
           </li>
         ))}
@@ -154,7 +180,7 @@ export function MedicationWizard({
 
         {step === 0 ? (
           <fieldset>
-            <legend className="tuga-heading">¿Cómo se llama el medicamento?</legend>
+            <WizardLegend icon={stepIcons[0]}>¿Cómo se llama el medicamento?</WizardLegend>
             <p className="supporting-text">Cópialo como aparece en tu prescripción.</p>
             <label className="form-field" htmlFor="medication-name">
               <span>Nombre del medicamento</span>
@@ -173,7 +199,7 @@ export function MedicationWizard({
 
         {step === 1 ? (
           <fieldset>
-            <legend className="tuga-heading">¿Cuánto debes tomar?</legend>
+            <WizardLegend icon={stepIcons[1]}>¿Cuánto debes tomar?</WizardLegend>
             <p className="supporting-text">Escribe exactamente la cantidad y la unidad indicadas.</p>
             <div className="form-grid">
               <label className="form-field" htmlFor="medication-amount">
@@ -204,7 +230,7 @@ export function MedicationWizard({
 
         {step === 2 ? (
           <fieldset>
-            <legend className="tuga-heading">¿A qué horas debes tomarlo?</legend>
+            <WizardLegend icon={stepIcons[2]}>¿A qué horas debes tomarlo?</WizardLegend>
             <p className="supporting-text">Usa horarios fijos o el intervalo escrito en tu prescripción.</p>
             <div className="schedule-kind" role="radiogroup" aria-label="Tipo de horario">
               <label>
@@ -298,7 +324,7 @@ export function MedicationWizard({
 
         {step === 3 ? (
           <fieldset>
-            <legend className="tuga-heading">¿Cuándo comienza?</legend>
+            <WizardLegend icon={stepIcons[3]}>¿Cuándo comienza?</WizardLegend>
             <label className="form-field" htmlFor="medication-start-date">
               <span>Fecha inicial indicada</span>
               <input
@@ -315,7 +341,7 @@ export function MedicationWizard({
 
         {step === 4 ? (
           <fieldset>
-            <legend className="tuga-heading">¿Durante cuánto tiempo?</legend>
+            <WizardLegend icon={stepIcons[4]}>¿Durante cuánto tiempo?</WizardLegend>
             <p className="supporting-text">Copia la duración indicada en tu prescripción.</p>
             <div className="form-grid">
               <label className="form-field" htmlFor="duration-kind">
@@ -360,7 +386,7 @@ export function MedicationWizard({
 
         {step === 5 ? (
           <fieldset>
-            <legend className="tuga-heading">Revisar y guardar</legend>
+            <WizardLegend icon={stepIcons[5]}>Revisar y guardar</WizardLegend>
             <dl className="review-list">
               <div><dt>Medicamento</dt><dd>{draft.name.trim()}</dd></div>
               <div><dt>Dosis indicada</dt><dd>{draft.dosageAmount} {draft.dosageUnit.trim()}</dd></div>
@@ -393,7 +419,11 @@ export function MedicationWizard({
             </button>
           ) : null}
           <button className="tuga-button-primary" disabled={isSaving} type="submit">
-            {isSaving ? 'Guardando…' : step === 5 ? submitLabel : 'Continuar'}
+            {isSaving
+              ? 'Guardando…'
+              : step === 5
+                ? submitLabel
+                : <>Continuar <span aria-hidden="true">→</span></>}
           </button>
         </div>
       </form>

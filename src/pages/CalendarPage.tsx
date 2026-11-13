@@ -50,8 +50,8 @@ export function CalendarPage() {
   }
 
   return (
-    <div className="screen-stack">
-      <PageHeader backLabel="Volver a Hoy" backTo="/hoy" title="Calendario" />
+    <div className="screen-stack calendar-screen">
+      <PageHeader backLabel="Volver a Hoy" backTo="/hoy" icon="calendar" title="Calendario de medicamentos" />
       <section className="calendar-card" aria-labelledby="calendar-month-title">
         <div className="calendar-navigation">
           <button className="calendar-navigation__button" onClick={() => changeMonth(-1)} type="button" aria-label="Mes anterior">‹</button>
@@ -66,22 +66,39 @@ export function CalendarPage() {
           {monthDays.map((date) => {
             const dayOccurrences = occurrences.filter(({ localDate }) => localDate === date)
             const taken = dayOccurrences.filter(({ status }) => status === 'taken').length
+            const dayStatus = dayOccurrences.some(({ status }) => status === 'skipped')
+              ? 'skipped'
+              : dayOccurrences.some(({ status }) => status === 'pending')
+                ? 'pending'
+                : dayOccurrences.length > 0
+                  ? 'taken'
+                  : 'empty'
             return (
               <button
                 aria-label={`${formatLongDate(date)}. ${dayOccurrences.length} tomas, ${taken} realizadas`}
                 aria-pressed={selectedDate === date}
-                className="month-day"
+                className={`month-day month-day--${dayStatus}`}
                 key={date}
                 onClick={() => setChosenDate(date)}
                 type="button"
               >
                 <strong>{Number(date.slice(-2))}</strong>
-                <span>{dayOccurrences.length ? `${taken}/${dayOccurrences.length}` : '—'}</span>
+                {dayStatus === 'taken' ? <TugaIcon name="taken" /> : null}
+                {dayStatus === 'pending' ? <TugaIcon name="pending" /> : null}
+                {dayStatus === 'skipped' ? <span className="month-day__mark" aria-hidden="true">×</span> : null}
+                {dayStatus === 'empty' ? <span aria-hidden="true">—</span> : null}
+                <span className="visually-hidden">{dayOccurrences.length ? `${taken} de ${dayOccurrences.length} tomadas` : 'Sin tomas'}</span>
               </button>
             )
           })}
         </div>
       </section>
+
+      <div className="calendar-legend" aria-label="Estados del calendario">
+        <StatusBadge status="taken" />
+        <StatusBadge status="pending" />
+        <StatusBadge status="skipped" />
+      </div>
 
       {isLoading ? <p className="loading-message" role="status">Cargando el calendario…</p> : null}
       {errorMessage ? <p className="auth-error" role="alert">{errorMessage}</p> : null}
@@ -92,7 +109,7 @@ export function CalendarPage() {
           {selected.length > 0 ? (
             <div className="card-list compact-card-list">
               {selected.map((occurrence) => (
-                <article className="calendar-intake-row" key={occurrence.id}>
+                <article className={`calendar-intake-row calendar-intake-row--${occurrence.status}`} key={occurrence.id}>
                   <div>
                     <h3 className="tuga-heading">{occurrence.medicationName}</h3>
                     <p>{occurrence.localTime} · {formatDoseAmount(occurrence.dosageAmount)} {occurrence.dosageUnit}</p>

@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { tugaAssets } from '../assets/tugaAssets'
 import { PageHeader } from '../components/PageHeader'
 import { StatusBadge } from '../components/StatusBadge'
 import { TugaIcon } from '../components/TugaIcon'
+import { useAuth } from '../features/auth/authContext'
 import {
   calculateDailyProgress,
   findNextPending,
@@ -16,6 +18,7 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 export function TodayPage() {
   useDocumentTitle('Hoy | TUGA')
+  const { user } = useAuth()
   const doseContext = useDoseContext()
   const today = doseContext.context?.today ?? '1970-01-01'
   const { occurrences, isLoading, errorMessage } = useDoseOccurrences(today, today, Boolean(doseContext.context))
@@ -23,6 +26,10 @@ export function TodayPage() {
   const nextOccurrence = findNextPending(occurrences)
   const progress = calculateDailyProgress(occurrences)
   const otherOccurrences = occurrences.filter(({ id }) => id !== nextOccurrence?.id)
+  const metadataName = user?.user_metadata.full_name ?? user?.user_metadata.name
+  const firstName = typeof metadataName === 'string' && metadataName.trim()
+    ? metadataName.trim().split(/\s+/)[0]
+    : ''
 
   if (!doseContext.context) {
     return (
@@ -36,8 +43,16 @@ export function TodayPage() {
   }
 
   return (
-    <div className="screen-stack">
-      <PageHeader eyebrow={formatLongDate(today)} title="Medicamentos de hoy" />
+    <div className="screen-stack today-screen">
+      <section className="today-hero" aria-labelledby="today-title">
+        <div>
+          <p className="page-eyebrow">{formatLongDate(today)}</p>
+          <h1 className="tuga-heading" id="today-title">Hola{firstName ? `, ${firstName}` : ''}</h1>
+          <p>Aquí tienes tu próxima toma.</p>
+        </div>
+        <img src={tugaAssets.mascots.heart} alt="TUGA te acompaña hoy" />
+      </section>
+      <h2 className="visually-hidden">Medicamentos de hoy</h2>
       {isLoading ? <p className="loading-message" role="status">Cargando tus tomas…</p> : null}
       {errorMessage ? <p className="auth-error" role="alert">{errorMessage}</p> : null}
 
@@ -51,31 +66,34 @@ export function TodayPage() {
       ) : null}
 
       {nextOccurrence ? (
-        <section className="intake-card intake-card--primary" aria-labelledby="next-intake-title">
-          <div className="card-heading-row">
-            <span className="card-kicker">Próxima toma pendiente</span>
+        <section className="intake-card intake-card--primary today-next-card" aria-labelledby="next-intake-title">
+          <div className="today-next-card__heading">
+            <TugaIcon name="medication" />
+            <span>Próximo medicamento</span>
+          </div>
+          <div className="today-next-card__body">
+            <div className="medication-summary medication-summary--featured">
+              <span className="icon-tile icon-tile--large"><TugaIcon name="medication" /></span>
+              <div>
+                <h2 className="tuga-heading" id="next-intake-title">{nextOccurrence.medicationName}</h2>
+                <p className="dose-pill">{formatDoseAmount(nextOccurrence.dosageAmount)} {nextOccurrence.dosageUnit}</p>
+              </div>
+            </div>
+            <p className="intake-time intake-time--featured">
+              <TugaIcon name="clock" />
+              <span>Hora programada <strong>{nextOccurrence.localTime}</strong></span>
+            </p>
             <StatusBadge status={nextOccurrence.status} />
           </div>
-          <div className="medication-summary">
-            <span className="icon-tile"><TugaIcon name="medication" /></span>
-            <div>
-              <h2 className="tuga-heading" id="next-intake-title">{nextOccurrence.medicationName}</h2>
-              <p>{formatDoseAmount(nextOccurrence.dosageAmount)} {nextOccurrence.dosageUnit}</p>
-            </div>
-          </div>
-          <p className="intake-time">
-            <TugaIcon name="clock" />
-            <span>Hora programada <strong>{nextOccurrence.localTime}</strong></span>
-          </p>
           <div className="stacked-actions">
             <Link className="tuga-button-primary full-width-action" to={`/tomas/${nextOccurrence.id}/confirmar`}>
-              Sí, ya lo tomé
+              <TugaIcon name="taken" /> Sí, ya lo tomé
             </Link>
             <button
               className="tuga-button-secondary full-width-action"
               onClick={() => setPendingMessage('La toma continúa pendiente. No se guardó ningún cambio.')}
               type="button"
-            >Todavía no</button>
+            ><TugaIcon name="postpone" /> Todavía no</button>
           </div>
           <p className="action-feedback" aria-live="polite">{pendingMessage}</p>
         </section>
