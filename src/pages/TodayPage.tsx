@@ -10,11 +10,20 @@ import {
   calculateDailyProgress,
   findNextPending,
   formatDoseAmount,
-  formatLongDate,
 } from '../features/doses/doseRules'
 import { useDoseContext } from '../features/doses/useDoseContext'
 import { useDoseOccurrences } from '../features/doses/useDoseOccurrences'
+import { postponeDoseReminder } from '../features/notifications/notificationService'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+
+function formatTodayTime(value: string): string {
+  const [hourText = '', minute = ''] = value.split(':')
+  const hour = Number(hourText)
+  if (!Number.isInteger(hour) || hour < 0 || hour > 23 || !/^\d{2}$/.test(minute)) return value
+  const period = hour >= 12 ? 'PM' : 'AM'
+  const displayHour = hour % 12 || 12
+  return `${displayHour}:${minute} ${period}`
+}
 
 export function TodayPage() {
   useDocumentTitle('Hoy | TUGA')
@@ -23,13 +32,29 @@ export function TodayPage() {
   const today = doseContext.context?.today ?? '1970-01-01'
   const { occurrences, isLoading, errorMessage } = useDoseOccurrences(today, today, Boolean(doseContext.context))
   const [pendingMessage, setPendingMessage] = useState('')
+  const [isPostponing, setIsPostponing] = useState(false)
   const nextOccurrence = findNextPending(occurrences)
   const progress = calculateDailyProgress(occurrences)
   const otherOccurrences = occurrences.filter(({ id }) => id !== nextOccurrence?.id)
+  const allTaken = occurrences.length > 0 && occurrences.every(({ status }) => status === 'taken')
   const metadataName = user?.user_metadata.full_name ?? user?.user_metadata.name
   const firstName = typeof metadataName === 'string' && metadataName.trim()
     ? metadataName.trim().split(/\s+/)[0]
     : ''
+
+  async function postponeNextReminder() {
+    if (!nextOccurrence || isPostponing) return
+    setIsPostponing(true)
+    setPendingMessage('')
+    try {
+      await postponeDoseReminder(nextOccurrence.id)
+      setPendingMessage('Te recordaremos nuevamente en 15 minutos. La toma continúa pendiente.')
+    } catch (error) {
+      setPendingMessage(error instanceof Error ? error.message : 'No pudimos programar el recordatorio. Inténtalo nuevamente.')
+    } finally {
+      setIsPostponing(false)
+    }
+  }
 
   if (!doseContext.context) {
     return (
@@ -46,7 +71,6 @@ export function TodayPage() {
     <div className="screen-stack today-screen">
       <section className="today-hero" aria-labelledby="today-title">
         <div className="today-hero__copy">
-          <p className="page-eyebrow">{formatLongDate(today)}</p>
           <h1 className="tuga-heading" id="today-title">Hola{firstName ? `, ${firstName}` : ''}</h1>
           <p>Aquí tienes tu próxima toma.</p>
         </div>
@@ -69,7 +93,7 @@ export function TodayPage() {
         <section className="intake-card intake-card--primary today-next-card" aria-labelledby="next-intake-heading">
           <h2 className="today-next-card__heading" id="next-intake-heading">
             <TugaIcon name="medication" />
-            <span>Próxima toma</span>
+            <span>Próximo medicamento</span>
           </h2>
           <div className="today-next-card__body">
             <div className="medication-summary medication-summary--featured">
@@ -79,23 +103,46 @@ export function TodayPage() {
                 <p className="dose-pill">{formatDoseAmount(nextOccurrence.dosageAmount)} {nextOccurrence.dosageUnit}</p>
               </div>
             </div>
-            <p className="intake-time intake-time--featured">
-              <TugaIcon name="clock" />
-              <span>Hora programada <strong>{nextOccurrence.localTime}</strong></span>
-            </p>
+            <div className="today-schedule">
+              <TugaIcon name="calendar" />
+              <span className="today-schedule__divider" aria-hidden="true" />
+              <p><span className="visually-hidden">Hora programada: </span><strong>{formatTodayTime(nextOccurrence.localTime)}</strong></p>
+            </div>
             <StatusBadge status={nextOccurrence.status} />
           </div>
           <div className="stacked-actions">
             <Link className="tuga-button-primary full-width-action" to={`/tomas/${nextOccurrence.id}/confirmar`}>
-              <TugaIcon name="taken" /> Sí, ya lo tomé
+              <TugaIcon name="taken" /> Tomé mi medicamento
             </Link>
             <button
               className="tuga-button-secondary full-width-action"
-              onClick={() => setPendingMessage('La toma continúa pendiente. No se guardó ningún cambio.')}
+              disabled={isPostponing}
+              onClick={() => void postponeNextReminder()}
               type="button"
-            ><TugaIcon name="postpone" /> Todavía no</button>
+            ><TugaIcon name="postpone" /> {isPostponing ? 'Programando…' : 'Recordar más tarde'}</button>
           </div>
-          <p className="action-feedback" aria-live="polite">{pendingMessage}</p>
+          {pendingMessage ? <p className="action-feedback" aria-live="polite">{pendingMessage}</p> : null}
+        </section>
+      ) : null}
+
+      {!isLoading && !errorMessage && occurrences.length > 0 && !nextOccurrence ? (
+        <section className="today-finished-card" aria-labelledby="finished-title">
+          <div className="today-finished-card__heading"><TugaIcon name="taken" /> Medicamentos de hoy</div>
+          <div className="today-finished-card__body">
+            <img
+              src={allTaken ? tugaAssets.mascots.celebration : tugaAssets.mascots.calendar}
+              alt={allTaken ? 'TUGA celebra contigo' : 'TUGA sostiene un calendario de medicamentos'}
+            />
+            <div>
+              <h2 className="tuga-heading" id="finished-title">
+                {allTaken
+                  ? '¡Muy bien! Ya completaste tus medicamentos de hoy'
+                  : 'Ya no tienes tomas pendientes hoy'}
+              </h2>
+              <p>{allTaken ? 'Tus confirmaciones quedaron guardadas.' : 'Consulta el historial para revisar las tomas de hoy.'}</p>
+            </div>
+          </div>
+          <Link className="tuga-button-secondary full-width-action" to="/historial">Ver historial</Link>
         </section>
       ) : null}
 
@@ -121,7 +168,7 @@ export function TodayPage() {
               <article className="intake-row intake-row--linked today-intake-row" key={occurrence.id}>
                 <div className="today-intake-row__details">
                   <h3 className="tuga-heading">{occurrence.medicationName}</h3>
-                  <p>{formatDoseAmount(occurrence.dosageAmount)} {occurrence.dosageUnit} · {occurrence.localTime}</p>
+                  <p>{formatDoseAmount(occurrence.dosageAmount)} {occurrence.dosageUnit} · {formatTodayTime(occurrence.localTime)}</p>
                 </div>
                 <div className="intake-row__actions today-intake-row__actions">
                   <StatusBadge status={occurrence.status} />
