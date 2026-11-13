@@ -1,5 +1,13 @@
 # Progreso de TUGA
 
+## Historial de tomas — ajuste al mockup (2026-11-13)
+
+- Mantiene las ocurrencias reales de Supabase y añade filtros por período y medicamento, totales por estado y agrupación descendente por fecha.
+- Cada toma muestra dosis, hora programada, estado diferenciado y, cuando aplica, la hora real de confirmación; incluye período personalizado y estado vacío.
+- Validación aprobada: 2 pruebas Vitest focalizadas, TypeScript estricto, ESLint focalizado y un recorrido Playwright en 360, 390 y 430 px.
+- Capturas comparadas con el mockup: `docs/capturas/historial-390x844.png` y `docs/capturas/historial-detalle-390x844.png`.
+- No se modificaron Supabase ni otros flujos; no se ejecutaron Playwright completo, build general ni Docker.
+
 ## Calendario — ajuste al mockup (2026-11-13)
 
 - Conserva la lógica real de mes, día y ocurrencias, con encabezado TUGA, selector mensual en píldora, celdas amplias por estado, leyenda y detalle navegable del día.

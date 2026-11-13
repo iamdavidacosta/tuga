@@ -3852,3 +3852,549 @@ body:has(.medication-wizard-page) {
     transform: translateY(1px);
   }
 }
+
+/* Historial de tomas, composición del mockup oficial. */
+.app-shell:has(.history-screen) {
+  background-color: #FDF8EF;
+  background-image:
+    linear-gradient(rgb(253 248 239 / 90%), rgb(253 248 239 / 90%)),
+    url('/assets/tuga/patrones/paisaje-verde-capas.png');
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.app-shell:has(.history-screen) > .brand-header {
+  display: none;
+}
+
+.app-shell:has(.history-screen) > .app-content {
+  width: min(100%, 720px);
+  padding: 0 10px 150px;
+}
+
+.app-shell:has(.history-screen) .bottom-navigation {
+  width: min(100%, 720px);
+  border-color: color-mix(in srgb, var(--tuga-primary) 32%, var(--tuga-green-light));
+  border-radius: 32px 32px 0 0;
+  background: #fffdf8;
+}
+
+.history-screen {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+}
+
+.history-app-header {
+  position: sticky;
+  z-index: 6;
+  top: 0;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  align-items: center;
+  gap: 8px;
+  margin-inline: -10px;
+  padding: max(10px, env(safe-area-inset-top)) 12px 6px;
+  background: #FDF8EF;
+}
+
+.history-app-header__button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  place-items: center;
+  background: color-mix(in srgb, var(--tuga-surface) 90%, var(--tuga-green-light));
+  box-shadow: 0 4px 12px rgb(0 75 56 / 18%);
+  color: var(--tuga-primary-dark);
+  font: 900 2rem/1 var(--tuga-font-heading);
+  text-decoration: none;
+}
+
+.history-app-header__button .tuga-icon {
+  width: 31px;
+  height: 31px;
+}
+
+.history-app-header__button:hover,
+.history-app-header__button:active {
+  background: var(--tuga-green-light);
+}
+
+.history-app-header__logo {
+  display: grid;
+  width: 120px;
+  height: 48px;
+  margin: 0 auto;
+  place-items: center;
+}
+
+.history-app-header__logo img {
+  width: 120px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.history-app-header__button:focus-visible,
+.history-app-header__logo:focus-visible,
+.history-select:focus-within,
+.history-custom-range input:focus-visible,
+.history-dose-row:focus-visible {
+  outline: 4px solid var(--tuga-warning);
+  outline-offset: 2px;
+}
+
+.history-title {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding-inline: 6px;
+}
+
+.history-title > .tuga-icon {
+  width: 56px;
+  height: 56px;
+}
+
+.history-title h1 {
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(1.7rem, 7.6vw, 2.35rem)/1 var(--tuga-font-heading);
+}
+
+.history-title p {
+  margin-top: 4px;
+  color: var(--tuga-text-secondary);
+  font-size: clamp(0.93rem, 3.8vw, 1.08rem);
+  line-height: 1.22;
+}
+
+.history-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  gap: 9px;
+  min-width: 0;
+}
+
+.history-select {
+  display: grid;
+  grid-template-columns: 35px minmax(0, 1fr);
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 58px;
+  padding: 4px 7px;
+  border: 2px solid rgb(0 75 56 / 34%);
+  border-radius: 20px;
+  background: rgb(255 253 248 / 96%);
+  box-shadow: 0 5px 12px rgb(0 75 56 / 10%);
+}
+
+.history-select > .tuga-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.history-select select {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 24px 0 2px;
+  border: 0;
+  background-color: transparent;
+  color: var(--tuga-text);
+  font: 800 clamp(0.79rem, 3.25vw, 1rem)/1.1 var(--tuga-font-heading);
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.history-select select:focus {
+  outline: 0;
+}
+
+.history-custom-range {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  padding: 11px;
+  border: 2px solid rgb(0 75 56 / 18%);
+  border-radius: 20px;
+  background: rgb(255 253 248 / 94%);
+}
+
+.history-custom-range label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  color: var(--tuga-primary-dark);
+  font-weight: 800;
+}
+
+.history-custom-range input {
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  padding: 8px;
+  border: 2px solid rgb(0 75 56 / 28%);
+  border-radius: 13px;
+  background: var(--tuga-surface);
+  color: var(--tuga-text);
+  font: inherit;
+}
+
+.history-custom-range p {
+  grid-column: 1 / -1;
+  color: var(--tuga-error);
+  font-weight: 700;
+}
+
+.history-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.history-summary-card {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  min-width: 0;
+  min-height: 84px;
+  padding: 9px 7px;
+  border-radius: 22px;
+  color: var(--tuga-text);
+}
+
+.history-summary-card > .tuga-icon,
+.history-summary-card__mark {
+  grid-row: 1 / 3;
+  width: 36px;
+  height: 36px;
+}
+
+.history-summary-card__mark {
+  display: grid;
+  border-radius: 50%;
+  place-items: center;
+  background: #f04444;
+  color: var(--tuga-surface);
+  font: 900 1.8rem/1 var(--tuga-font-heading);
+}
+
+.history-summary-card strong {
+  align-self: end;
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(1.65rem, 7vw, 2.1rem)/0.9 var(--tuga-font-heading);
+  text-align: center;
+}
+
+.history-summary-card > span:last-child {
+  align-self: start;
+  overflow: hidden;
+  font: 800 clamp(0.72rem, 3vw, 0.95rem)/1 var(--tuga-font-heading);
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+.history-summary-card--taken {
+  background: color-mix(in srgb, var(--tuga-green-light) 82%, var(--tuga-surface));
+}
+
+.history-summary-card--pending {
+  background: color-mix(in srgb, var(--tuga-cream) 72%, var(--tuga-surface));
+}
+
+.history-summary-card--skipped {
+  background: color-mix(in srgb, var(--tuga-coral) 38%, var(--tuga-surface));
+}
+
+.history-date-list {
+  display: grid;
+  gap: 13px;
+}
+
+.history-date-card {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px 10px;
+  border: 2px solid rgb(25 54 45 / 20%);
+  border-radius: 26px;
+  background: rgb(255 253 248 / 96%);
+  box-shadow: 0 8px 20px rgb(0 75 56 / 12%);
+}
+
+.history-date-card__header {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.history-date-card__header > .tuga-icon {
+  width: 39px;
+  height: 39px;
+}
+
+.history-date-card__header h2 {
+  min-width: 0;
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(1.05rem, 4.7vw, 1.48rem)/1.08 var(--tuga-font-heading);
+}
+
+.history-date-card__header > span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tuga-green-light) 82%, var(--tuga-surface));
+  color: var(--tuga-primary-dark);
+  font-size: clamp(0.72rem, 2.9vw, 0.9rem);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.history-dose-list {
+  display: grid;
+  gap: 7px;
+}
+
+.history-dose-row {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 72px;
+  padding: 7px;
+  border-radius: 17px;
+  color: var(--tuga-text);
+  text-decoration: none;
+}
+
+.history-dose-row--taken {
+  background: color-mix(in srgb, var(--tuga-green-light) 62%, var(--tuga-surface));
+}
+
+.history-dose-row--pending {
+  background: color-mix(in srgb, var(--tuga-cream) 58%, var(--tuga-surface));
+}
+
+.history-dose-row--skipped {
+  background: color-mix(in srgb, var(--tuga-coral) 28%, var(--tuga-surface));
+}
+
+.history-dose-row__icon {
+  display: grid;
+  width: 50px;
+  height: 58px;
+  border-radius: 14px;
+  place-items: center;
+  background: rgb(255 255 255 / 56%);
+}
+
+.history-dose-row__icon .tuga-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.history-dose-row__medicine {
+  display: grid;
+  min-width: 0;
+  gap: 1px;
+}
+
+.history-dose-row__medicine strong {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(0.98rem, 4.2vw, 1.22rem)/1.04 var(--tuga-font-heading);
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.history-dose-row__medicine > span {
+  color: var(--tuga-text-secondary);
+  font-size: clamp(0.75rem, 3vw, 0.88rem);
+}
+
+.history-dose-row__medicine small {
+  color: var(--tuga-primary-dark);
+  font-size: clamp(0.65rem, 2.5vw, 0.77rem);
+  font-weight: 700;
+}
+
+.history-dose-row__meta {
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+}
+
+.history-dose-row__time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(0.78rem, 3.2vw, 0.9rem)/1 var(--tuga-font-heading);
+  white-space: nowrap;
+}
+
+.history-dose-row__time .tuga-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.history-status-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 34px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font: 900 clamp(0.69rem, 2.8vw, 0.82rem)/1 var(--tuga-font-heading);
+  white-space: nowrap;
+}
+
+.history-status-pill > .tuga-icon,
+.history-status-pill__mark {
+  width: 22px;
+  height: 22px;
+}
+
+.history-status-pill__mark {
+  display: grid;
+  border-radius: 50%;
+  place-items: center;
+  background: rgb(255 255 255 / 32%);
+  font-size: 1.25rem;
+}
+
+.history-status-pill--taken {
+  background: #1dae34;
+  color: var(--tuga-surface);
+}
+
+.history-status-pill--pending {
+  background: #ffd766;
+  color: var(--tuga-primary-dark);
+}
+
+.history-status-pill--skipped {
+  background: #ff5a5f;
+  color: var(--tuga-surface);
+}
+
+.history-empty-state {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  padding: 20px;
+  border: 2px solid rgb(25 54 45 / 18%);
+  border-radius: 24px;
+  background: rgb(255 253 248 / 96%);
+  box-shadow: 0 8px 20px rgb(0 75 56 / 10%);
+}
+
+.history-empty-state > .tuga-icon {
+  width: 66px;
+  height: 66px;
+}
+
+.history-empty-state h2 {
+  color: var(--tuga-primary-dark);
+  font: 900 1.22rem/1.1 var(--tuga-font-heading);
+}
+
+.history-empty-state p {
+  margin-top: 4px;
+  color: var(--tuga-text-secondary);
+  line-height: 1.25;
+}
+
+@media (max-width: 370px) {
+  .history-title {
+    grid-template-columns: 50px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .history-title > .tuga-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .history-filters {
+    gap: 6px;
+  }
+
+  .history-select {
+    grid-template-columns: 29px minmax(0, 1fr);
+    gap: 2px;
+    padding-inline: 5px;
+  }
+
+  .history-select > .tuga-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .history-summary {
+    gap: 5px;
+  }
+
+  .history-summary-card {
+    grid-template-columns: 31px minmax(0, 1fr);
+    padding-inline: 5px;
+  }
+
+  .history-summary-card > .tuga-icon,
+  .history-summary-card__mark {
+    width: 30px;
+    height: 30px;
+  }
+
+  .history-date-card__header {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+
+  .history-date-card__header > span {
+    grid-column: 2;
+    width: fit-content;
+  }
+
+  .history-dose-row {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 6px;
+    padding-inline: 5px;
+  }
+
+  .history-dose-row__icon {
+    width: 44px;
+    height: 54px;
+  }
+
+  .history-dose-row__icon .tuga-icon {
+    width: 39px;
+    height: 39px;
+  }
+
+  .history-status-pill {
+    padding-inline: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .history-dose-row,
+  .history-app-header__button {
+    transition: background-color 140ms ease, transform 140ms ease;
+  }
+
+  .history-dose-row:active {
+    transform: translateY(1px);
+  }
+}
