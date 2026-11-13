@@ -1480,7 +1480,7 @@ button {
   background: #FDF8EF;
 }
 
-.app-shell:has(.today-screen) .bottom-navigation__item span {
+.app-shell:has(.today-screen) .bottom-navigation__item .bottom-navigation__label {
   font-size: 0.75rem;
   letter-spacing: -0.01em;
   overflow-wrap: normal;
@@ -4395,6 +4395,379 @@ body:has(.medication-wizard-page) {
   }
 
   .history-dose-row:active {
+    transform: translateY(1px);
+  }
+}
+
+/* Navegación compartida: el icono mantiene las mismas dimensiones en todas las rutas. */
+.bottom-navigation {
+  overflow: hidden;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+.bottom-navigation__item {
+  min-width: 0;
+  min-height: 72px;
+  overflow: hidden;
+}
+
+.bottom-navigation__icon {
+  display: grid;
+  flex: 0 0 26px;
+  width: 26px !important;
+  height: 26px !important;
+  max-width: 26px !important;
+  max-height: 26px !important;
+  place-items: center;
+  overflow: hidden;
+}
+
+.bottom-navigation__icon .tuga-icon {
+  display: block;
+  width: 26px !important;
+  height: 26px !important;
+  max-width: 26px !important;
+  max-height: 26px !important;
+  object-fit: contain;
+}
+
+.bottom-navigation__label {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  font-size: clamp(0.66rem, 2.8vw, 0.8rem);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bottom-navigation__item.is-active .bottom-navigation__icon,
+.bottom-navigation__item:active .bottom-navigation__icon {
+  width: 26px !important;
+  height: 26px !important;
+  transform: none;
+}
+
+/* Más opciones, menú simple y secundarias agrupadas. */
+.app-shell:has(.more-screen) {
+  background-color: #FDF8EF;
+  background-image:
+    linear-gradient(rgb(253 248 239 / 90%), rgb(253 248 239 / 90%)),
+    url('/assets/tuga/patrones/paisaje-verde-capas.png');
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.app-shell:has(.more-screen) > .brand-header {
+  display: none;
+}
+
+.app-shell:has(.more-screen) > .app-content {
+  width: min(100%, 620px);
+  padding: 0 12px 160px;
+}
+
+.app-shell:has(.more-screen) .bottom-navigation {
+  width: min(100%, 620px);
+  border-color: color-mix(in srgb, var(--tuga-primary) 32%, var(--tuga-green-light));
+  border-radius: 30px 30px 0 0;
+  background: #fffdf8;
+}
+
+.more-screen {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+}
+
+.more-header {
+  position: sticky;
+  z-index: 6;
+  top: 0;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  align-items: center;
+  gap: 8px;
+  margin-inline: -12px;
+  padding: max(10px, env(safe-area-inset-top)) 12px 6px;
+  background: #FDF8EF;
+}
+
+.more-header__back {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  place-items: center;
+  background: color-mix(in srgb, var(--tuga-surface) 90%, var(--tuga-green-light));
+  box-shadow: 0 4px 12px rgb(0 75 56 / 18%);
+  color: var(--tuga-primary-dark);
+  font: 900 2rem/1 var(--tuga-font-heading);
+  text-decoration: none;
+}
+
+.more-header__logo {
+  display: grid;
+  width: 120px;
+  height: 48px;
+  margin: 0 auto;
+  place-items: center;
+}
+
+.more-header__logo img {
+  width: 120px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.more-header__back:focus-visible,
+.more-header__logo:focus-visible,
+.more-option-card:focus-visible,
+.more-signout button:focus-visible,
+.more-secondary-links a:focus-visible {
+  outline: 4px solid var(--tuga-warning);
+  outline-offset: 2px;
+}
+
+.more-intro {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 2px 8px 4px;
+}
+
+.more-intro img {
+  width: 76px;
+  height: 82px;
+  object-fit: contain;
+}
+
+.more-intro h1 {
+  color: var(--tuga-primary-dark);
+  font: 900 clamp(1.75rem, 8vw, 2.4rem)/1 var(--tuga-font-heading);
+}
+
+.more-intro p {
+  margin-top: 5px;
+  color: var(--tuga-text-secondary);
+  font-size: 1.08rem;
+}
+
+.more-options {
+  display: grid;
+  gap: 11px;
+}
+
+.more-option-card {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 86px;
+  padding: 10px 12px;
+  border: 2px solid color-mix(in srgb, var(--tuga-primary) 22%, var(--tuga-green-light));
+  border-radius: 24px;
+  background: rgb(255 253 248 / 96%);
+  box-shadow: 0 6px 16px rgb(0 75 56 / 12%);
+  color: var(--tuga-text);
+  text-decoration: none;
+}
+
+.more-option-card:hover,
+.more-option-card:active {
+  border-color: var(--tuga-primary);
+  background: var(--tuga-green-light);
+}
+
+.more-option-card__icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  border-radius: 17px;
+  place-items: center;
+  background: color-mix(in srgb, var(--tuga-green-light) 78%, var(--tuga-surface));
+}
+
+.more-option-card__icon .tuga-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.more-option-card__copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.more-option-card__copy strong {
+  color: var(--tuga-primary-dark);
+  font: 900 1.2rem/1.05 var(--tuga-font-heading);
+}
+
+.more-option-card__copy > span {
+  color: var(--tuga-text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.15;
+}
+
+.more-option-card__arrow {
+  color: var(--tuga-primary-dark);
+  font: 900 2rem/1 var(--tuga-font-heading);
+  text-align: center;
+}
+
+.more-details {
+  display: grid;
+  gap: 14px;
+}
+
+.more-detail-card {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px;
+  border: 2px solid var(--tuga-green-light);
+  border-radius: 25px;
+  background: rgb(255 253 248 / 97%);
+  box-shadow: 0 7px 18px rgb(0 75 56 / 10%);
+  scroll-margin-top: 78px;
+}
+
+.more-detail-card:has(.profile-card) {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.more-detail-card .profile-card {
+  padding: 18px;
+}
+
+.more-detail-card__heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.more-detail-card__heading h2,
+.more-signout h2 {
+  color: var(--tuga-primary-dark);
+  font: 900 1.35rem/1.05 var(--tuga-font-heading);
+}
+
+.more-detail-card__icon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  place-items: center;
+  background: var(--tuga-green-light);
+}
+
+.more-detail-card__icon .tuga-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.more-secondary-links {
+  display: grid;
+  gap: 9px;
+}
+
+.more-secondary-links a {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 26px;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 8px 10px;
+  border: 2px solid var(--tuga-green-light);
+  border-radius: 16px;
+  color: var(--tuga-primary-dark);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.more-secondary-links a .tuga-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.more-signout {
+  display: grid;
+  gap: 10px;
+  padding: 17px 16px 20px;
+  border: 2px solid color-mix(in srgb, var(--tuga-coral) 55%, var(--tuga-surface));
+  border-radius: 25px;
+  background: rgb(255 253 248 / 97%);
+  box-shadow: 0 7px 18px rgb(0 75 56 / 8%);
+}
+
+.more-signout__button {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--tuga-primary-dark);
+  color: var(--tuga-surface);
+  font: 900 1.08rem/1 var(--tuga-font-heading);
+  cursor: pointer;
+}
+
+.more-signout__confirmation {
+  display: grid;
+  gap: 10px;
+  color: var(--tuga-text-secondary);
+}
+
+.more-signout__confirmation > div {
+  display: grid;
+  gap: 9px;
+}
+
+@media (max-width: 370px) {
+  .more-option-card {
+    grid-template-columns: 48px minmax(0, 1fr) 28px;
+    gap: 9px;
+    padding-inline: 9px;
+  }
+
+  .more-option-card__icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .more-option-card__icon .tuga-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .more-option-card__copy strong {
+    font-size: 1.08rem;
+  }
+
+  .more-option-card__copy > span {
+    font-size: 0.83rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .more-option-card,
+  .more-header__back,
+  .more-signout__button {
+    transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+  }
+
+  .more-option-card:active,
+  .more-signout__button:active {
     transform: translateY(1px);
   }
 }

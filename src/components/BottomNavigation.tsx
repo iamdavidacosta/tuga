@@ -27,8 +27,10 @@ export function BottomNavigation() {
           key={to}
           to={to}
         >
-          <TugaIcon name={icon} />
-          <span>{label}</span>
+          <span aria-hidden="true" className="bottom-navigation__icon">
+            <TugaIcon name={icon} />
+          </span>
+          <span className="bottom-navigation__label">{label}</span>
         </NavLink>
       ))}
     </nav>

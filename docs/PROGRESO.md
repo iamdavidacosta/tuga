@@ -1,5 +1,13 @@
 # Progreso de TUGA
 
+## Navegación inferior y pantalla Más — ajuste visual (2026-11-13)
+
+- La navegación compartida fija los cuatro iconos en contenedores de 26 × 26 px, mantiene etiquetas completas, objetivos táctiles y espacio seguro inferior en todas las rutas.
+- La pantalla Más ahora presenta cuatro opciones breves, mascota oficial discreta, apartados existentes de perfil, recordatorios, preferencias, ayuda y cierre de sesión con confirmación.
+- Validación aprobada: 3 pruebas Vitest focalizadas, TypeScript estricto, ESLint focalizado y un recorrido Playwright en Hoy, Medicamentos, Calendario y Más a 390 px.
+- Captura visual: `docs/capturas/mas-390x844.png`.
+- No se modificaron Supabase ni la lógica de medicamentos; no se ejecutaron suites completas ni Docker.
+
 ## Historial de tomas — ajuste al mockup (2026-11-13)
 
 - Mantiene las ocurrencias reales de Supabase y añade filtros por período y medicamento, totales por estado y agrupación descendente por fecha.
